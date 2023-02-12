@@ -1,4 +1,34 @@
+using System.Text;
+
 namespace CardGameUtils.Structs;
+
+public class CardStruct
+{
+	public string name, text;
+	public GameConstants.CardType card_type;
+	public GameConstants.PlayerClass card_class;
+	public GameConstants.Location location;
+	public int uid, life, power, cost, position;
+	public CardStruct(string name,
+		string text,
+		GameConstants.CardType card_type,
+		GameConstants.PlayerClass card_class,
+		int uid, int life, int power, int cost,
+		GameConstants.Location location, int position)
+	{
+		this.name = name;
+		this.text = text;
+		this.card_type = card_type;
+		this.card_class = card_class;
+		this.uid = uid;
+		this.life = life;
+		this.power = power;
+		this.cost = cost;
+		this.location = location;
+		this.position = position;
+	}
+}
+
 
 public class URL
 {
@@ -132,5 +162,80 @@ public class ServerConfig
 		this.room_max_port = room_max_port;
 		this.room_min_port = room_min_port;
 		this.core_info = core_info;
+	}
+}
+
+public class NetworkingStructs
+{
+	// NOTE: The packet class exists for reference only, 
+	// 		 in practive it is unnecessary to actually serialize a packet, 
+	// 		 accessing it's type and then parsing it's content is enough.
+	public class Packet
+	{
+		public byte type;
+		public PacketContent content = new PacketContent();
+		public static byte[] ENDING = Encoding.ASCII.GetBytes("|END|");
+	}
+	public class PacketContent {}
+	public class DuelPackets
+	{
+	}
+
+	public class DeckPackets
+	{
+		public struct Deck
+		{
+			public string name;
+			public CardStruct[] cards;
+			public GameConstants.PlayerClass player_class;
+		}
+
+		public class NamesRequest : PacketContent
+		{
+		}
+
+		public class NamesResponse : PacketContent
+		{
+			public string[] names = new string[0];
+		}
+
+		public class ListRequest : PacketContent
+		{
+			public string name = "UNINITIALIZED";
+		}
+		public class ListResponse : PacketContent
+		{
+			public CardStruct[] cards = new CardStruct[0];
+		}
+
+		public class SearchRequest : PacketContent
+		{
+			public string? filter;
+		}
+		public class SearchResponse : PacketContent
+		{
+			public CardStruct[] cards = new CardStruct[0];
+		}
+
+		public class ListUpdateRequest : PacketContent
+		{
+			public Deck deck;
+		}
+		public class ListUpdateResponse : PacketContent
+		{
+			public bool should_update;
+		}
+	}
+
+	public class ServerPackets
+	{
+		public class AdditionalCardsRequest : PacketContent
+		{
+		}
+
+		public class AdditionalCardsResponse : PacketContent
+		{
+			public CardStruct[] cards = new CardStruct[0];
+		}
 	}
 }
