@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -135,4 +136,33 @@ class Functions
 		}
 		return ret;
 	}
+	public static List<byte> Request(PacketContent request, string address, int port)
+	{
+		using (TcpClient client = new TcpClient())
+		{
+			client.Connect(address, port);
+			return Request(request, client);
+		}
+	}
+
+	public static List<byte> Request(PacketContent request, TcpClient client)
+	{
+		Stopwatch fs = Stopwatch.StartNew();
+		using (NetworkStream stream = client.GetStream())
+		{
+			List<byte> payload = new List<byte>();
+			payload.Add(NetworkingConstants.PacketDict[request.GetType()]);
+			string json = JsonSerializer.Serialize(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
+			payload.AddRange(Encoding.UTF8.GetBytes(json));
+			payload.AddRange(Packet.ENDING);
+			stream.Write(payload.ToArray(), 0, payload.Count);
+			Log($"Sent the request after {fs.ElapsedMilliseconds} milliseconds", severity: LogSeverity.Debug);
+			// Reuse the payload list for the response
+			payload = ReceiveRawPacket(stream)!;
+			fs.Stop();
+			Log($"Received a response after {fs.ElapsedMilliseconds} milliseconds", severity: LogSeverity.Debug);
+			return payload;
+		}
+	}
 }
+
