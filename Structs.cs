@@ -8,13 +8,16 @@ public class CardStruct
 	public GameConstants.CardType card_type;
 	public GameConstants.PlayerClass card_class;
 	public GameConstants.Location location;
-	public int uid, life, power, cost, position;
+	public int uid, life, power, cost, position, controller;
+	public bool is_class_ability;
 	public CardStruct(string name,
 		string text,
 		GameConstants.CardType card_type,
 		GameConstants.PlayerClass card_class,
 		int uid, int life, int power, int cost,
-		GameConstants.Location location, int position)
+		GameConstants.Location location, int position,
+		bool is_class_ability,
+		int controller)
 	{
 		this.name = name;
 		this.text = text;
@@ -26,6 +29,27 @@ public class CardStruct
 		this.cost = cost;
 		this.location = location;
 		this.position = position;
+		this.is_class_ability = is_class_ability;
+		this.controller = controller;
+	}
+
+	public override string ToString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.Append($"UID: {uid} | name: {name} | controller {controller} | text: {text} | cost: {cost} | card_type: {card_type} | class: {card_class} | location: {location}");
+		if(card_type == GameConstants.CardType.Creature)
+		{
+			builder.Append($" | power: {power} | life: {life}");
+			if(location == GameConstants.Location.Field)
+			{
+				builder.Append($" | position: {position}");
+			}
+		}
+		else if(card_type == GameConstants.CardType.Spell)
+		{
+			builder.Append($" | is_class_ability: {is_class_ability}");
+		}
+		return builder.ToString();
 	}
 }
 
