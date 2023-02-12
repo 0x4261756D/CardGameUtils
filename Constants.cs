@@ -53,10 +53,16 @@ public class NetworkingConstants
 	public static readonly JsonSerializerOptions jsonIncludeOption = new JsonSerializerOptions { IncludeFields = true };
 	public static readonly Dictionary<Type, byte> PacketDict = new Dictionary<Type, byte>
 	{
-		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), PACKET_SERVER_ADDITIONAL_CARDS_REQUEST},
-		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE},
 		{typeof(Structs.NetworkingStructs.DeckPackets.NamesRequest), PACKET_DECK_NAMES_REQUEST},
 		{typeof(Structs.NetworkingStructs.DeckPackets.NamesResponse), PACKET_DECK_NAMES_RESPONSE},
+		{typeof(Structs.NetworkingStructs.DeckPackets.ListRequest), PACKET_DECK_LIST_REQUEST},
+		{typeof(Structs.NetworkingStructs.DeckPackets.ListResponse), PACKET_DECK_LIST_RESPONSE},
+		{typeof(Structs.NetworkingStructs.DeckPackets.SearchRequest), PACKET_DECK_SEARCH_REQUEST},
+		{typeof(Structs.NetworkingStructs.DeckPackets.SearchResponse), PACKET_DECK_SEARCH_RESPONSE},
+		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateRequest), PACKET_DECK_LIST_UPDATE_REQUEST},
+		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateResponse), PACKET_DECK_LIST_UPDATE_RESPONSE},
+		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), PACKET_SERVER_ADDITIONAL_CARDS_REQUEST},
+		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE},
 	};
 	internal static object PacketTypeToName(byte type)
 	{
@@ -66,6 +72,8 @@ public class NetworkingConstants
 
 public class GameConstants
 {
+	public const int MAX_CARD_MULTIPLICITY = 2;
+	public const int DECK_SIZE = 40;
 	public enum CardType
 	{
 		UNKNOWN,
