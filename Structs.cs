@@ -228,6 +228,7 @@ public class NetworkingStructs
 			public string name;
 			public CardStruct[] cards;
 			public GameConstants.PlayerClass player_class;
+			public CardStruct? ability, quest;
 		}
 
 		public class NamesRequest : PacketContent
@@ -245,9 +246,7 @@ public class NetworkingStructs
 		}
 		public class ListResponse : PacketContent
 		{
-			public CardStruct[] cards = new CardStruct[0];
-			public GameConstants.PlayerClass player_class;
-			public CardStruct? ability, quest;
+			public Deck deck;
 		}
 
 		public class SearchRequest : PacketContent
