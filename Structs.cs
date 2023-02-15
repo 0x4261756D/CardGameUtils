@@ -251,6 +251,7 @@ public class NetworkingStructs
 		public class SearchRequest : PacketContent
 		{
 			public string? filter;
+			public GameConstants.PlayerClass playerClass;
 		}
 		public class SearchResponse : PacketContent
 		{
