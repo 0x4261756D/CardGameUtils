@@ -47,22 +47,22 @@ public class CardStruct
 		{
 			builder.Append($"UID: {uid}{separator}");
 		}
-		builder.AppendJoin(separator, $"name: {name}\n", $"cost: {cost}", $"card_type: {card_type}", $"class: {card_class}");
+		builder.AppendJoin(separator, $"name: {name}{separator}", $"cost: {cost}", $"card_type: {card_type}", $"class: {card_class}");
 		if(!inDeckEdit)
 		{
-			builder.Append($"location: {location}{separator}");
+			builder.Append($"{separator}location: {location}");
 		}
 		if(card_type == GameConstants.CardType.Creature)
 		{
-			builder.AppendJoin(separator, $"power: {power}", $"life: {life}");
+			builder.AppendJoin(separator, $"{separator}power: {power}", $"life: {life}");
 			if(location == GameConstants.Location.Field)
 			{
-				builder.Append($"position: {position}{separator}");
+				builder.Append($"{separator}position: {position}");
 			}
 		}
 		else if(card_type == GameConstants.CardType.Spell && inDeckEdit)
 		{
-			builder.Append($"can_be_class_ability: {can_be_class_ability}{separator}");
+			builder.Append($"{separator}can_be_class_ability: {can_be_class_ability}");
 		}
 		builder.Append($"{separator}----------{separator}{text}");
 		return builder.ToString();
