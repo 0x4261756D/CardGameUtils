@@ -10,6 +10,7 @@ public class CardStruct
 	public GameConstants.Location location;
 	public int uid, life, power, cost, position, controller;
 	public bool is_class_ability;
+	public bool can_be_class_ability;
 	public CardStruct(string name,
 		string text,
 		GameConstants.CardType card_type,
@@ -17,6 +18,7 @@ public class CardStruct
 		int uid, int life, int power, int cost,
 		GameConstants.Location location, int position,
 		bool is_class_ability,
+		bool can_be_class_ability,
 		int controller)
 	{
 		this.name = name;
