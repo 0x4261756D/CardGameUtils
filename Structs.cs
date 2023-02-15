@@ -246,6 +246,8 @@ public class NetworkingStructs
 		public class ListResponse : PacketContent
 		{
 			public CardStruct[] cards = new CardStruct[0];
+			public GameConstants.PlayerClass player_class;
+			public CardStruct? ability, quest;
 		}
 
 		public class SearchRequest : PacketContent
