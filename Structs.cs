@@ -37,20 +37,34 @@ public class CardStruct
 
 	public override string ToString()
 	{
+		return Format(separator: '|');
+	}
+
+	public string Format(bool inDeckEdit = false, char separator = '\n')
+	{
 		StringBuilder builder = new StringBuilder();
-		builder.Append($"UID: {uid} | name: {name} | controller {controller} | text: {text} | cost: {cost} | card_type: {card_type} | class: {card_class} | location: {location}");
+		if(!inDeckEdit)
+		{
+			builder.Append($"UID: {uid}{separator}");
+		}
+		builder.AppendJoin(separator, $"name: {name}\n", $"cost: {cost}", $"card_type: {card_type}", $"class: {card_class}");
+		if(!inDeckEdit)
+		{
+			builder.Append($"location: {location}{separator}");
+		}
 		if(card_type == GameConstants.CardType.Creature)
 		{
-			builder.Append($" | power: {power} | life: {life}");
+			builder.AppendJoin(separator, $"power: {power}", $"life: {life}");
 			if(location == GameConstants.Location.Field)
 			{
-				builder.Append($" | position: {position}");
+				builder.Append($"position: {position}{separator}");
 			}
 		}
-		else if(card_type == GameConstants.CardType.Spell)
+		else if(card_type == GameConstants.CardType.Spell && inDeckEdit)
 		{
-			builder.Append($" | is_class_ability: {is_class_ability}");
+			builder.Append($"can_be_class_ability: {can_be_class_ability}{separator}");
 		}
+		builder.Append($"{separator}----------{separator}{text}");
 		return builder.ToString();
 	}
 }
