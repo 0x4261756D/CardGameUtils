@@ -32,6 +32,7 @@ public class CardStruct
 		this.location = location;
 		this.position = position;
 		this.is_class_ability = is_class_ability;
+		this.can_be_class_ability = can_be_class_ability;
 		this.controller = controller;
 	}
 
