@@ -20,7 +20,7 @@ class Functions
 		Warning,
 		Error,
 	}
-	public static void Log(string message, LogSeverity severity = LogSeverity.Debug, bool includeFullPath = false, [CallerFilePath] string propertyName = "")
+	public static void Log(string message, LogSeverity severity = LogSeverity.Debug, bool includeFullPath = false, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string propertyName = "")
 	{
 		ConsoleColor current = Console.ForegroundColor;
 		if (severity == LogSeverity.Warning)
@@ -35,7 +35,7 @@ class Functions
 		if(severity != LogSeverity.Debug)
 		{
 #endif
-		Console.WriteLine($"{severity.ToString().ToUpper()}: [{(includeFullPath ? propertyName : Path.GetFileNameWithoutExtension(propertyName))}]: {message}");
+		Console.WriteLine($"{severity.ToString().ToUpper()}: [{(includeFullPath ? propertyName : Path.GetFileNameWithoutExtension(propertyName))}:{lineNumber}]: {message}");
 #if RELEASE
 		}
 #endif
