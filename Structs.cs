@@ -47,7 +47,17 @@ public class CardStruct
 		{
 			builder.Append($"UID: {uid}{separator}");
 		}
-		builder.AppendJoin(separator, $"name: {name}{separator}", $"cost: {cost}", $"card_type: {card_type}", $"class: {card_class}");
+		builder.Append($"name: {name}{separator}");
+		if(card_type != GameConstants.CardType.Quest)
+		{
+			builder.Append($"{separator}cost: {cost}");
+		}
+		else
+		{
+			builder.Append($"{separator}quest progress: {power}/{cost}");
+		}
+		builder.Append($"{separator}card_type: {card_type}");
+		builder.Append($"{separator}class: {card_class}");
 		if(!inDeckEdit)
 		{
 			builder.Append($"{separator}location: {location}");

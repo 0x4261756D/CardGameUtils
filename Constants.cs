@@ -79,6 +79,7 @@ public class GameConstants
 		UNKNOWN,
 		Creature,
 		Spell,
+		Quest,
 	}
 
 	public enum PlayerClass
