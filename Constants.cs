@@ -74,6 +74,8 @@ public class GameConstants
 {
 	public const int MAX_CARD_MULTIPLICITY = 2;
 	public const int DECK_SIZE = 40;
+	public const int START_HAND_SIZE = 5;
+	public const int FIELD_SIZE = 6;
 	public enum CardType
 	{
 		UNKNOWN,
