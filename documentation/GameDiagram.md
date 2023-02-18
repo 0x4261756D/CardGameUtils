@@ -1,6 +1,5 @@
 ```mermaid
 stateDiagram-v2
-	direction TD
 	startDraw: Each player draws 5 cards
 	state Mulligan
 	{
