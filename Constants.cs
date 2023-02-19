@@ -102,6 +102,18 @@ public class GameConstants
 	public const int DECK_SIZE = 40;
 	public const int START_HAND_SIZE = 5;
 	public const int FIELD_SIZE = 6;
+
+	public enum State
+	{
+		UNINITIALIZED,
+		TurnStart,
+		TurnInitGained,
+		BattleStart,
+		BattleZoneMarked,
+		BattleInitGained,
+		DamageCalc,
+		TurnEnd
+	}
 	public enum CardType
 	{
 		UNKNOWN,
