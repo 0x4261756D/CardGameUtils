@@ -47,6 +47,9 @@ public class NetworkingConstants
 								PACKET_DECK_SEARCH_RESPONSE = iotaByte(),
 								PACKET_DECK_LIST_UPDATE_REQUEST = iotaByte(),
 								PACKET_DECK_LIST_UPDATE_RESPONSE = iotaByte(),
+
+								PACKET_DUEL_SURRENDER_REQUEST = iotaByte(),
+
 								PACKET_SERVER_ADDITIONAL_CARDS_REQUEST = iotaByte(),
 								PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE = iotaByte(),
 								PACKET_SERVER_CREATE_REQUEST = iotaByte(),
@@ -71,6 +74,9 @@ public class NetworkingConstants
 		{typeof(Structs.NetworkingStructs.DeckPackets.SearchResponse), PACKET_DECK_SEARCH_RESPONSE},
 		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateRequest), PACKET_DECK_LIST_UPDATE_REQUEST},
 		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateResponse), PACKET_DECK_LIST_UPDATE_RESPONSE},
+
+		{typeof(Structs.NetworkingStructs.DuelPackets.SurrenderRequest), PACKET_DUEL_SURRENDER_REQUEST},
+
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), PACKET_SERVER_ADDITIONAL_CARDS_REQUEST},
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE},
 		{typeof(Structs.NetworkingStructs.ServerPackets.CreateRequest), PACKET_SERVER_CREATE_REQUEST},

@@ -230,6 +230,9 @@ public class NetworkingStructs
 	public class PacketContent { }
 	public class DuelPackets
 	{
+		public class SurrenderRequest : PacketContent
+		{
+		}
 	}
 
 	public class DeckPackets
