@@ -240,6 +240,28 @@ public class NetworkingStructs
 			public CardStruct[] cards;
 			public GameConstants.PlayerClass player_class;
 			public CardStruct? ability, quest;
+			public override string? ToString()
+			{
+				if(name == null) return null;
+				StringBuilder builder = new StringBuilder();
+				builder.Append(player_class);
+				if (ability != null)
+				{
+					builder.Append("\n#");
+					builder.Append(ability.name);
+				}
+				if (quest != null)
+				{
+					builder.Append("\n|");
+					builder.Append(quest.name);
+				}
+				foreach (var card in cards)
+				{
+					builder.Append("\n");
+					builder.Append(card.name);
+				}
+				return builder.ToString();
+			}
 		}
 
 		public class NamesRequest : PacketContent
