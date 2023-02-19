@@ -44,12 +44,12 @@ public class CardStruct
 	public string Format(bool inDeckEdit = false, char separator = '\n')
 	{
 		StringBuilder builder = new StringBuilder();
-		if(!inDeckEdit)
+		if (!inDeckEdit)
 		{
 			builder.Append($"UID: {uid}{separator}");
 		}
 		builder.Append($"name: {name}{separator}");
-		if(card_type != GameConstants.CardType.Quest)
+		if (card_type != GameConstants.CardType.Quest)
 		{
 			builder.Append($"{separator}cost: {cost}");
 		}
@@ -59,19 +59,19 @@ public class CardStruct
 		}
 		builder.Append($"{separator}card_type: {card_type}");
 		builder.Append($"{separator}class: {card_class}");
-		if(!inDeckEdit)
+		if (!inDeckEdit)
 		{
 			builder.Append($"{separator}location: {location}");
 		}
-		if(card_type == GameConstants.CardType.Creature)
+		if (card_type == GameConstants.CardType.Creature)
 		{
 			builder.AppendJoin(separator, $"{separator}power: {power}", $"life: {life}");
-			if(location == GameConstants.Location.Field)
+			if (location == GameConstants.Location.Field)
 			{
 				builder.Append($"{separator}position: {position}");
 			}
 		}
-		else if(card_type == GameConstants.CardType.Spell && inDeckEdit)
+		else if (card_type == GameConstants.CardType.Spell && inDeckEdit)
 		{
 			builder.Append($"{separator}can_be_class_ability: {can_be_class_ability}");
 		}
@@ -227,7 +227,7 @@ public class NetworkingStructs
 		public PacketContent content = new PacketContent();
 		public static byte[] ENDING = Encoding.ASCII.GetBytes("|END|");
 	}
-	public class PacketContent {}
+	public class PacketContent { }
 	public class DuelPackets
 	{
 	}
@@ -285,10 +285,60 @@ public class NetworkingStructs
 		public class AdditionalCardsRequest : PacketContent
 		{
 		}
-
 		public class AdditionalCardsResponse : PacketContent
 		{
 			public CardStruct[] cards = new CardStruct[0];
+		}
+
+		public class CreateRequest : PacketContent
+		{
+			public string? name;
+		}
+		public class CreateResponse : PacketContent
+		{
+			public bool success;
+			public string? reason;
+		}
+
+		public class JoinRequest : PacketContent
+		{
+			public string? name, targetName;
+		}
+		public class JoinResponse : PacketContent
+		{
+			public bool success;
+			public string? reason;
+		}
+
+		public class LeaveRequest : PacketContent
+		{
+			public string? name;
+		}
+		public class LeaveResponse : PacketContent
+		{
+			public bool success;
+			public string? reason;
+		}
+
+		public class RoomsRequest : PacketContent
+		{ }
+		public class RoomsResponse : PacketContent
+		{
+			public string[] rooms = new string[0];
+		}
+
+		public class StartRequest : PacketContent
+		{
+			public string? name;
+			public string[] decklist = new string[0];
+			public bool noshuffle;
+		}
+		public class StartResponse : PacketContent
+		{
+			public bool success;
+			public string? id;
+			public int port;
+			public string? reason;
 		}
 	}
 }

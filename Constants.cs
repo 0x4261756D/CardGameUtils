@@ -49,6 +49,16 @@ public class NetworkingConstants
 								PACKET_DECK_LIST_UPDATE_RESPONSE = iotaByte(),
 								PACKET_SERVER_ADDITIONAL_CARDS_REQUEST = iotaByte(),
 								PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE = iotaByte(),
+								PACKET_SERVER_CREATE_REQUEST = iotaByte(),
+								PACKET_SERVER_CREATE_RESPONSE = iotaByte(),
+								PACKET_SERVER_JOIN_REQUEST = iotaByte(),
+								PACKET_SERVER_JOIN_RESPONSE = iotaByte(),
+								PACKET_SERVER_LEAVE_REQUEST = iotaByte(),
+								PACKET_SERVER_LEAVE_RESPONSE = iotaByte(),
+								PACKET_SERVER_ROOMS_REQUEST = iotaByte(),
+								PACKET_SERVER_ROOMS_RESPONSE = iotaByte(),
+								PACKET_SERVER_START_REQUEST = iotaByte(),
+								PACKET_SERVER_START_RESPONSE = iotaByte(),
 								PACKET_COUNT = iotaByteReset();
 	public static readonly JsonSerializerOptions jsonIncludeOption = new JsonSerializerOptions { IncludeFields = true };
 	public static readonly Dictionary<Type, byte> PacketDict = new Dictionary<Type, byte>
@@ -63,6 +73,16 @@ public class NetworkingConstants
 		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateResponse), PACKET_DECK_LIST_UPDATE_RESPONSE},
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), PACKET_SERVER_ADDITIONAL_CARDS_REQUEST},
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE},
+		{typeof(Structs.NetworkingStructs.ServerPackets.CreateRequest), PACKET_SERVER_CREATE_REQUEST},
+		{typeof(Structs.NetworkingStructs.ServerPackets.CreateResponse), PACKET_SERVER_CREATE_RESPONSE},
+		{typeof(Structs.NetworkingStructs.ServerPackets.JoinRequest), PACKET_SERVER_JOIN_REQUEST},
+		{typeof(Structs.NetworkingStructs.ServerPackets.JoinResponse), PACKET_SERVER_JOIN_RESPONSE},
+		{typeof(Structs.NetworkingStructs.ServerPackets.LeaveRequest), PACKET_SERVER_LEAVE_REQUEST},
+		{typeof(Structs.NetworkingStructs.ServerPackets.LeaveResponse), PACKET_SERVER_LEAVE_RESPONSE},
+		{typeof(Structs.NetworkingStructs.ServerPackets.RoomsRequest), PACKET_SERVER_ROOMS_REQUEST},
+		{typeof(Structs.NetworkingStructs.ServerPackets.RoomsResponse), PACKET_SERVER_ROOMS_RESPONSE},
+		{typeof(Structs.NetworkingStructs.ServerPackets.StartRequest), PACKET_SERVER_START_REQUEST},
+		{typeof(Structs.NetworkingStructs.ServerPackets.StartResponse), PACKET_SERVER_START_RESPONSE},
 	};
 	internal static object PacketTypeToName(byte type)
 	{
