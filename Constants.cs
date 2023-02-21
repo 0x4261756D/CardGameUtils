@@ -49,6 +49,14 @@ public class NetworkingConstants
 								PACKET_DECK_LIST_UPDATE_RESPONSE = iotaByte(),
 
 								PACKET_DUEL_SURRENDER_REQUEST = iotaByte(),
+								PACKET_DUEL_YES_NO_REQUEST = iotaByte(),
+								PACKET_DUEL_YES_NO_RESPONSE = iotaByte(),
+								PACKET_DUEL_SELECT_CARDS_REQUEST = iotaByte(),
+								PACKET_DUEL_SELECT_CARDS_RESPONSE = iotaByte(),
+								PACKET_DUEL_CUSTOM_SELECT_CARDS_REQUEST = iotaByte(),
+								PACKET_DUEL_CUSTOM_SELECT_CARDS_RESPONSE = iotaByte(),
+								PACKET_DUEL_CUSTOM_SELECT_CARDS_INTERMEDIATE_REQUEST = iotaByte(),
+								PACKET_DUEL_CUSTOM_SELECT_CARDS_INTERMEDIATE_RESPONSE = iotaByte(),
 
 								PACKET_SERVER_ADDITIONAL_CARDS_REQUEST = iotaByte(),
 								PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE = iotaByte(),
@@ -76,6 +84,14 @@ public class NetworkingConstants
 		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateResponse), PACKET_DECK_LIST_UPDATE_RESPONSE},
 
 		{typeof(Structs.NetworkingStructs.DuelPackets.SurrenderRequest), PACKET_DUEL_SURRENDER_REQUEST},
+		{typeof(Structs.NetworkingStructs.DuelPackets.YesNoRequest), PACKET_DUEL_YES_NO_REQUEST},
+		{typeof(Structs.NetworkingStructs.DuelPackets.YesNoResponse), PACKET_DUEL_YES_NO_RESPONSE},
+		{typeof(Structs.NetworkingStructs.DuelPackets.SelectCardsRequest), PACKET_DUEL_SELECT_CARDS_REQUEST},
+		{typeof(Structs.NetworkingStructs.DuelPackets.SelectCardsResponse), PACKET_DUEL_SELECT_CARDS_RESPONSE},
+		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsRequest), PACKET_DUEL_CUSTOM_SELECT_CARDS_REQUEST},
+		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsResponse), PACKET_DUEL_CUSTOM_SELECT_CARDS_RESPONSE},
+		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsIntermediateRequest), PACKET_DUEL_CUSTOM_SELECT_CARDS_INTERMEDIATE_REQUEST},
+		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsIntermediateResponse), PACKET_DUEL_CUSTOM_SELECT_CARDS_INTERMEDIATE_RESPONSE},
 
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), PACKET_SERVER_ADDITIONAL_CARDS_REQUEST},
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE},
@@ -101,19 +117,26 @@ public class GameConstants
 	public const int MAX_CARD_MULTIPLICITY = 2;
 	public const int DECK_SIZE = 40;
 	public const int START_HAND_SIZE = 5;
-	public const int FIELD_SIZE = 6;
 	public const int START_LIFE = 40;
+	public const int START_MOMENTUM = 3;
+	public static readonly int[] MOMENTUM_INCREMENT_TURNS = {4, 7, 10};
+	public const int FIELD_SIZE = 6;
 
 	public enum State
 	{
 		UNINITIALIZED,
 		TurnStart,
-		TurnInitGained,
+		MainStart,
 		BattleStart,
 		BattleZoneMarked,
-		BattleInitGained,
 		DamageCalc,
-		TurnEnd
+		TurnEnd,
+		BattleInitGained = BattleStart + InitGained,
+		BattleActionTaken = BattleStart + ActionTaken,
+		MainInitGained = MainStart + InitGained,
+		MainActionTaken = MainStart + ActionTaken,
+		ActionTaken = 0x1000,
+		InitGained = 0x10000,
 	}
 	public enum CardType
 	{

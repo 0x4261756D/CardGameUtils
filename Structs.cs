@@ -233,6 +233,62 @@ public class NetworkingStructs
 		public class SurrenderRequest : PacketContent
 		{
 		}
+
+		public class YesNoRequest : PacketContent
+		{
+			public string question = "UNINITIALIZED";
+		}
+		public class YesNoResponse : PacketContent
+		{
+			public bool result;
+		}
+
+		public class SelectCardsRequest : PacketContent
+		{
+			public CardStruct[] cards = new CardStruct[0];
+			public int amount;
+			public string? desc;
+		}
+		public class SelectCardsResponse : PacketContent
+		{
+			public int[] uids = new int[0];
+		}
+
+		public class CustomSelectCardsRequest : PacketContent
+		{
+			public CardStruct[] cards = new CardStruct[0];
+			public string? desc;
+			public bool initialState;
+		}
+		public class CustomSelectCardsResponse : PacketContent
+		{
+			public int[] uids = new int[0];
+		}
+
+		public class CustomSelectCardsIntermediateRequest : PacketContent
+		{
+			public int[] uids = new int[0];
+		}
+		public class CustomSelectCardsIntermediateResponse : PacketContent
+		{
+			public bool isValid;
+		}
+
+		public class FieldUpdateRequest : PacketContent
+		{
+			public struct Field
+			{
+				public int life, deckSize, graveSize, momentum;
+				public CardStruct[] hand;
+				public CardStruct[] field;
+				// TODO: Don't always send these
+				public string name;
+				public CardStruct ability, quest;
+			}
+
+			public Field ownField, oppField;
+			public int turn;
+		}
 	}
 
 	public class DeckPackets
