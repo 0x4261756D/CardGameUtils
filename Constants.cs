@@ -7,109 +7,79 @@ namespace CardGameUtils;
 
 public class NetworkingConstants
 {
-	private static int counter = -1;
-	public static int iota()
+	public enum PacketType : byte
 	{
-		if (counter == int.MaxValue)
-		{
-			throw new Exception("iota overflew");
-		}
-		int tmp = counter;
-		counter = (counter == -1) ? 1 : (counter + 1);
-		return tmp;
-	}
+		UNKNOWN,
+		DeckNamesRequest,
+		DeckNamesResponse,
+		DeckListRequest,
+		DeckListResponse,
+		DeckSearchRequest,
+		DeckSearchResponse,
+		DeckListUpdateRequest,
+		DeckListUpdateResponse,
 
-	public static byte iotaByte()
-	{
-		if (counter == byte.MaxValue)
-		{
-			throw new Exception("iota_byte overflow");
-		}
-		return (byte)iota();
-	}
+		DuelSurrenderRequest,
+		DuelYesNoRequest,
+		DuelYesNoResponse,
+		DuelSelectCardsRequest,
+		DuelSelectCardsResponse,
+		DuelCustomSelectCardsRequest,
+		DuelCustomSelectCardsResponse,
+		DuelCustomSelectCardsIntermediateRequest,
+		DuelCustomSelectCardsIntermediateResponse,
+		DuelFieldUpdateRequest,
 
-	public static byte iotaByteReset()
-	{
-		return (byte)iotaReset();
+		ServerAdditionalCardsRequest,
+		ServerAdditionalCardsResponse,
+		ServerCreateRequest,
+		ServerCreateResponse,
+		ServerJoinRequest,
+		ServerJoinResponse,
+		ServerLeaveRequest,
+		ServerLeaveResponse,
+		ServerRoomsRequest,
+		ServerRoomsResponse,
+		ServerStartRequest,
+		ServerStartResponse,
+		PACKET_COUNT
 	}
-	public static int iotaReset()
-	{
-		int tmp = counter;
-		counter = -1;
-		return tmp;
-	}
-	public static readonly byte PACKET_UNKNOWN = iotaByte(),
-								PACKET_DECK_NAMES_REQUEST = iotaByte(),
-								PACKET_DECK_NAMES_RESPONSE = iotaByte(),
-								PACKET_DECK_LIST_REQUEST = iotaByte(),
-								PACKET_DECK_LIST_RESPONSE = iotaByte(),
-								PACKET_DECK_SEARCH_REQUEST = iotaByte(),
-								PACKET_DECK_SEARCH_RESPONSE = iotaByte(),
-								PACKET_DECK_LIST_UPDATE_REQUEST = iotaByte(),
-								PACKET_DECK_LIST_UPDATE_RESPONSE = iotaByte(),
-
-								PACKET_DUEL_SURRENDER_REQUEST = iotaByte(),
-								PACKET_DUEL_YES_NO_REQUEST = iotaByte(),
-								PACKET_DUEL_YES_NO_RESPONSE = iotaByte(),
-								PACKET_DUEL_SELECT_CARDS_REQUEST = iotaByte(),
-								PACKET_DUEL_SELECT_CARDS_RESPONSE = iotaByte(),
-								PACKET_DUEL_CUSTOM_SELECT_CARDS_REQUEST = iotaByte(),
-								PACKET_DUEL_CUSTOM_SELECT_CARDS_RESPONSE = iotaByte(),
-								PACKET_DUEL_CUSTOM_SELECT_CARDS_INTERMEDIATE_REQUEST = iotaByte(),
-								PACKET_DUEL_CUSTOM_SELECT_CARDS_INTERMEDIATE_RESPONSE = iotaByte(),
-
-								PACKET_SERVER_ADDITIONAL_CARDS_REQUEST = iotaByte(),
-								PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE = iotaByte(),
-								PACKET_SERVER_CREATE_REQUEST = iotaByte(),
-								PACKET_SERVER_CREATE_RESPONSE = iotaByte(),
-								PACKET_SERVER_JOIN_REQUEST = iotaByte(),
-								PACKET_SERVER_JOIN_RESPONSE = iotaByte(),
-								PACKET_SERVER_LEAVE_REQUEST = iotaByte(),
-								PACKET_SERVER_LEAVE_RESPONSE = iotaByte(),
-								PACKET_SERVER_ROOMS_REQUEST = iotaByte(),
-								PACKET_SERVER_ROOMS_RESPONSE = iotaByte(),
-								PACKET_SERVER_START_REQUEST = iotaByte(),
-								PACKET_SERVER_START_RESPONSE = iotaByte(),
-								PACKET_COUNT = iotaByteReset();
 	public static readonly JsonSerializerOptions jsonIncludeOption = new JsonSerializerOptions { IncludeFields = true };
 	public static readonly Dictionary<Type, byte> PacketDict = new Dictionary<Type, byte>
 	{
-		{typeof(Structs.NetworkingStructs.DeckPackets.NamesRequest), PACKET_DECK_NAMES_REQUEST},
-		{typeof(Structs.NetworkingStructs.DeckPackets.NamesResponse), PACKET_DECK_NAMES_RESPONSE},
-		{typeof(Structs.NetworkingStructs.DeckPackets.ListRequest), PACKET_DECK_LIST_REQUEST},
-		{typeof(Structs.NetworkingStructs.DeckPackets.ListResponse), PACKET_DECK_LIST_RESPONSE},
-		{typeof(Structs.NetworkingStructs.DeckPackets.SearchRequest), PACKET_DECK_SEARCH_REQUEST},
-		{typeof(Structs.NetworkingStructs.DeckPackets.SearchResponse), PACKET_DECK_SEARCH_RESPONSE},
-		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateRequest), PACKET_DECK_LIST_UPDATE_REQUEST},
-		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateResponse), PACKET_DECK_LIST_UPDATE_RESPONSE},
+		{typeof(Structs.NetworkingStructs.DeckPackets.NamesRequest), (byte)PacketType.DeckNamesRequest},
+		{typeof(Structs.NetworkingStructs.DeckPackets.NamesResponse), (byte)PacketType.DeckNamesResponse},
+		{typeof(Structs.NetworkingStructs.DeckPackets.ListRequest), (byte)PacketType.DeckListRequest},
+		{typeof(Structs.NetworkingStructs.DeckPackets.ListResponse), (byte)PacketType.DeckListResponse},
+		{typeof(Structs.NetworkingStructs.DeckPackets.SearchRequest), (byte)PacketType.DeckSearchRequest},
+		{typeof(Structs.NetworkingStructs.DeckPackets.SearchResponse), (byte)PacketType.DeckSearchResponse},
+		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateRequest), (byte)PacketType.DeckListUpdateRequest},
+		{typeof(Structs.NetworkingStructs.DeckPackets.ListUpdateResponse), (byte)PacketType.DeckListUpdateResponse},
 
-		{typeof(Structs.NetworkingStructs.DuelPackets.SurrenderRequest), PACKET_DUEL_SURRENDER_REQUEST},
-		{typeof(Structs.NetworkingStructs.DuelPackets.YesNoRequest), PACKET_DUEL_YES_NO_REQUEST},
-		{typeof(Structs.NetworkingStructs.DuelPackets.YesNoResponse), PACKET_DUEL_YES_NO_RESPONSE},
-		{typeof(Structs.NetworkingStructs.DuelPackets.SelectCardsRequest), PACKET_DUEL_SELECT_CARDS_REQUEST},
-		{typeof(Structs.NetworkingStructs.DuelPackets.SelectCardsResponse), PACKET_DUEL_SELECT_CARDS_RESPONSE},
-		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsRequest), PACKET_DUEL_CUSTOM_SELECT_CARDS_REQUEST},
-		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsResponse), PACKET_DUEL_CUSTOM_SELECT_CARDS_RESPONSE},
-		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsIntermediateRequest), PACKET_DUEL_CUSTOM_SELECT_CARDS_INTERMEDIATE_REQUEST},
-		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsIntermediateResponse), PACKET_DUEL_CUSTOM_SELECT_CARDS_INTERMEDIATE_RESPONSE},
+		{typeof(Structs.NetworkingStructs.DuelPackets.SurrenderRequest), (byte)PacketType.DuelSurrenderRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.YesNoRequest), (byte)PacketType.DuelYesNoRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.YesNoResponse), (byte)PacketType.DuelYesNoResponse},
+		{typeof(Structs.NetworkingStructs.DuelPackets.SelectCardsRequest), (byte)PacketType.DuelSelectCardsRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.SelectCardsResponse), (byte)PacketType.DuelSelectCardsResponse},
+		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsRequest), (byte)PacketType.DuelCustomSelectCardsRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsResponse), (byte)PacketType.DuelCustomSelectCardsResponse},
+		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsIntermediateRequest), (byte)PacketType.DuelCustomSelectCardsIntermediateRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsIntermediateResponse), (byte)PacketType.DuelCustomSelectCardsIntermediateResponse},
+		{typeof(Structs.NetworkingStructs.DuelPackets.FieldUpdateRequest), (byte)PacketType.DuelFieldUpdateRequest},
 
-		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), PACKET_SERVER_ADDITIONAL_CARDS_REQUEST},
-		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), PACKET_SERVER_ADDITIONAL_CARDS_RESPONSE},
-		{typeof(Structs.NetworkingStructs.ServerPackets.CreateRequest), PACKET_SERVER_CREATE_REQUEST},
-		{typeof(Structs.NetworkingStructs.ServerPackets.CreateResponse), PACKET_SERVER_CREATE_RESPONSE},
-		{typeof(Structs.NetworkingStructs.ServerPackets.JoinRequest), PACKET_SERVER_JOIN_REQUEST},
-		{typeof(Structs.NetworkingStructs.ServerPackets.JoinResponse), PACKET_SERVER_JOIN_RESPONSE},
-		{typeof(Structs.NetworkingStructs.ServerPackets.LeaveRequest), PACKET_SERVER_LEAVE_REQUEST},
-		{typeof(Structs.NetworkingStructs.ServerPackets.LeaveResponse), PACKET_SERVER_LEAVE_RESPONSE},
-		{typeof(Structs.NetworkingStructs.ServerPackets.RoomsRequest), PACKET_SERVER_ROOMS_REQUEST},
-		{typeof(Structs.NetworkingStructs.ServerPackets.RoomsResponse), PACKET_SERVER_ROOMS_RESPONSE},
-		{typeof(Structs.NetworkingStructs.ServerPackets.StartRequest), PACKET_SERVER_START_REQUEST},
-		{typeof(Structs.NetworkingStructs.ServerPackets.StartResponse), PACKET_SERVER_START_RESPONSE},
+		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), (byte)PacketType.ServerAdditionalCardsRequest},
+		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), (byte)PacketType.ServerAdditionalCardsResponse},
+		{typeof(Structs.NetworkingStructs.ServerPackets.CreateRequest), (byte)PacketType.ServerCreateRequest},
+		{typeof(Structs.NetworkingStructs.ServerPackets.CreateResponse), (byte)PacketType.ServerCreateResponse},
+		{typeof(Structs.NetworkingStructs.ServerPackets.JoinRequest), (byte)PacketType.ServerJoinRequest},
+		{typeof(Structs.NetworkingStructs.ServerPackets.JoinResponse), (byte)PacketType.ServerJoinResponse},
+		{typeof(Structs.NetworkingStructs.ServerPackets.LeaveRequest), (byte)PacketType.ServerLeaveRequest},
+		{typeof(Structs.NetworkingStructs.ServerPackets.LeaveResponse), (byte)PacketType.ServerLeaveResponse},
+		{typeof(Structs.NetworkingStructs.ServerPackets.RoomsRequest), (byte)PacketType.ServerRoomsRequest},
+		{typeof(Structs.NetworkingStructs.ServerPackets.RoomsResponse), (byte)PacketType.ServerRoomsResponse},
+		{typeof(Structs.NetworkingStructs.ServerPackets.StartRequest), (byte)PacketType.ServerStartRequest},
+		{typeof(Structs.NetworkingStructs.ServerPackets.StartResponse), (byte)PacketType.ServerStartResponse},
 	};
-	internal static object PacketTypeToName(byte type)
-	{
-		return PacketDict.First(x => x.Value == type).Key;
-	}
 }
 
 public class GameConstants
@@ -119,7 +89,7 @@ public class GameConstants
 	public const int START_HAND_SIZE = 5;
 	public const int START_LIFE = 40;
 	public const int START_MOMENTUM = 3;
-	public static readonly int[] MOMENTUM_INCREMENT_TURNS = {4, 7, 10};
+	public static readonly int[] MOMENTUM_INCREMENT_TURNS = { 4, 7, 10 };
 	public const int FIELD_SIZE = 6;
 
 	public enum State
