@@ -280,7 +280,7 @@ public class NetworkingStructs
 			{
 				public int life, deckSize, graveSize, momentum;
 				public CardStruct[] hand;
-				public CardStruct[] field;
+				public CardStruct?[] field;
 				// TODO: Don't always send these
 				public string name;
 				public CardStruct ability, quest;
