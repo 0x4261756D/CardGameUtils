@@ -35,6 +35,11 @@ public class CardStruct
 		this.can_be_class_ability = can_be_class_ability;
 		this.controller = controller;
 	}
+	public CardStruct()
+	{
+		name = "UNKNOWN";
+		text = "UNKNOWN";
+	}
 
 	public override string ToString()
 	{
