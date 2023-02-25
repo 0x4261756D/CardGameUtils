@@ -29,6 +29,9 @@ public class NetworkingConstants
 		DuelCustomSelectCardsIntermediateRequest,
 		DuelCustomSelectCardsIntermediateResponse,
 		DuelFieldUpdateRequest,
+		DuelGetOptionsRequest,
+		DuelGetOptionsResponse,
+		DuelGameResultResponse,
 
 		ServerAdditionalCardsRequest,
 		ServerAdditionalCardsResponse,
@@ -42,7 +45,7 @@ public class NetworkingConstants
 		ServerRoomsResponse,
 		ServerStartRequest,
 		ServerStartResponse,
-		PACKET_COUNT
+		PACKET_COUNT,
 	}
 	public static readonly JsonSerializerOptions jsonIncludeOption = new JsonSerializerOptions { IncludeFields = true };
 	public static readonly Dictionary<Type, byte> PacketDict = new Dictionary<Type, byte>
@@ -66,6 +69,9 @@ public class NetworkingConstants
 		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsIntermediateRequest), (byte)PacketType.DuelCustomSelectCardsIntermediateRequest},
 		{typeof(Structs.NetworkingStructs.DuelPackets.CustomSelectCardsIntermediateResponse), (byte)PacketType.DuelCustomSelectCardsIntermediateResponse},
 		{typeof(Structs.NetworkingStructs.DuelPackets.FieldUpdateRequest), (byte)PacketType.DuelFieldUpdateRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.GetOptionsRequest), (byte)PacketType.DuelGetOptionsRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.GetOptionsRequest), (byte)PacketType.DuelGetOptionsRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.GameResultResponse), (byte)PacketType.DuelGameResultResponse},
 
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), (byte)PacketType.ServerAdditionalCardsRequest},
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), (byte)PacketType.ServerAdditionalCardsResponse},
@@ -114,6 +120,13 @@ public class GameConstants
 		Creature,
 		Spell,
 		Quest,
+	}
+
+	public enum GameResult
+	{
+		Draw,
+		Won,
+		Lost,
 	}
 
 	public enum PlayerClass

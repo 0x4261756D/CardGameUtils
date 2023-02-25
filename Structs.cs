@@ -239,6 +239,24 @@ public class NetworkingStructs
 		{
 		}
 
+		public class GameResultResponse : PacketContent
+		{
+			public GameConstants.GameResult result;
+		}
+
+		public class GetOptionsRequest : PacketContent
+		{
+			public GameConstants.Location location;
+			public int uid;
+		}
+		public class GetOptionsResponse : PacketContent
+		{
+			public GameConstants.Location location;
+			public int uid;
+			// TODO: this might not be the way to do this
+			public string[] options = new string[0];
+		}
+
 		public class YesNoRequest : PacketContent
 		{
 			public string question = "UNINITIALIZED";
