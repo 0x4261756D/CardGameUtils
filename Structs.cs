@@ -323,6 +323,7 @@ public class NetworkingStructs
 
 		public class SelectZoneRequest : PacketContent
 		{
+			public bool[] options = new bool[0];
 		}
 		public class SelectZoneResponse : PacketContent
 		{
