@@ -257,6 +257,13 @@ public class NetworkingStructs
 			public string[] options = new string[0];
 		}
 
+		public class SelectOptionRequest : PacketContent
+		{
+			public string desc = "UNINITIALIZED";
+			public GameConstants.Location location;
+			public int uid;
+		}
+
 		public class YesNoRequest : PacketContent
 		{
 			public string question = "UNINITIALIZED";
