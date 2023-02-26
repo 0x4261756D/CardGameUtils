@@ -32,6 +32,8 @@ public class NetworkingConstants
 		DuelGetOptionsRequest,
 		DuelGetOptionsResponse,
 		DuelSelectOptionRequest,
+		DuelSelectZoneRequest,
+		DuelSelectZoneResponse,
 		DuelGameResultResponse,
 
 		ServerAdditionalCardsRequest,
@@ -74,6 +76,8 @@ public class NetworkingConstants
 		{typeof(Structs.NetworkingStructs.DuelPackets.GetOptionsResponse), (byte)PacketType.DuelGetOptionsResponse},
 		{typeof(Structs.NetworkingStructs.DuelPackets.SelectOptionRequest), (byte)PacketType.DuelSelectOptionRequest},
 		{typeof(Structs.NetworkingStructs.DuelPackets.GameResultResponse), (byte)PacketType.DuelGameResultResponse},
+		{typeof(Structs.NetworkingStructs.DuelPackets.SelectZoneRequest), (byte)PacketType.DuelSelectZoneRequest},
+		{typeof(Structs.NetworkingStructs.DuelPackets.SelectZoneResponse), (byte)PacketType.DuelSelectZoneResponse},
 
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsRequest), (byte)PacketType.ServerAdditionalCardsRequest},
 		{typeof(Structs.NetworkingStructs.ServerPackets.AdditionalCardsResponse), (byte)PacketType.ServerAdditionalCardsResponse},

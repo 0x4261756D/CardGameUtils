@@ -320,6 +320,14 @@ public class NetworkingStructs
 			public int turn;
 			public bool hasInitiative;
 		}
+
+		public class SelectZoneRequest : PacketContent
+		{
+		}
+		public class SelectZoneResponse : PacketContent
+		{
+			public int zone;
+		}
 	}
 
 	public class DeckPackets
