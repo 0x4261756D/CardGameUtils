@@ -152,6 +152,8 @@ public class GameConstants
 		Hand = 1 << 1,
 		Field = 1 << 2,
 		Grave = 1 << 3,
+		Quest = 1 << 4,
+		Ability = 1 << 5,
 		ALL = Deck | Hand | Field | Grave,
 	}
 }

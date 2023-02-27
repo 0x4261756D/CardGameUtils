@@ -60,7 +60,7 @@ public class CardStruct
 		}
 		else
 		{
-			builder.Append($"{separator}quest progress: {power}/{cost}");
+			builder.Append($"{separator}quest progress: {location}/{cost}");
 		}
 		builder.Append($"{separator}card_type: {card_type}");
 		builder.Append($"{separator}class: {card_class}");
