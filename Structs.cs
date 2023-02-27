@@ -314,6 +314,7 @@ public class NetworkingStructs
 				// TODO: Don't always send these
 				public string name;
 				public CardStruct ability, quest;
+				public CardStruct? shownCard;
 			}
 
 			public Field ownField, oppField;
