@@ -330,6 +330,10 @@ public class NetworkingStructs
 		{
 			public int zone;
 		}
+
+		internal class PassRequest : PacketContent
+		{
+		}
 	}
 
 	public class DeckPackets
