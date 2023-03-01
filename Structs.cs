@@ -320,6 +320,7 @@ public class NetworkingStructs
 			public Field ownField, oppField;
 			public int turn;
 			public bool hasInitiative;
+			public int? markedZone;
 		}
 
 		public class SelectZoneRequest : PacketContent
