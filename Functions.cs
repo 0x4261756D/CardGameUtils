@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using static CardGameUtils.Structs.NetworkingStructs;
 
 namespace CardGameUtils;
@@ -23,11 +18,11 @@ class Functions
 	public static void Log(string message, LogSeverity severity = LogSeverity.Debug, bool includeFullPath = false, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string propertyName = "")
 	{
 		ConsoleColor current = Console.ForegroundColor;
-		if (severity == LogSeverity.Warning)
+		if(severity == LogSeverity.Warning)
 		{
 			Console.ForegroundColor = ConsoleColor.Yellow;
 		}
-		else if (severity == LogSeverity.Error)
+		else if(severity == LogSeverity.Error)
 		{
 			Console.ForegroundColor = ConsoleColor.Red;
 		}
@@ -55,11 +50,11 @@ class Functions
 	public static T? ReceivePacket<T>(NetworkStream stream, int timeout = -1) where T : PacketContent
 	{
 		List<byte>? payload = ReceiveRawPacket(stream, timeout);
-		if (payload == null)
+		if(payload == null)
 		{
 			return null;
 		}
-		while (payload![0] != NetworkingConstants.PacketDict[typeof(T)])
+		while(payload![0] != NetworkingConstants.PacketDict[typeof(T)])
 		{
 			payload = ReceiveRawPacket(stream, timeout);
 			Log($"{NetworkingConstants.PacketDict.Where(x => x.Value == payload![0])}");
@@ -71,15 +66,15 @@ class Functions
 		int matched = 0;
 		List<byte> bytes = new List<byte>();
 		int sleepTime = 10;
-		while (matched < Packet.ENDING.Length)
+		while(matched < Packet.ENDING.Length)
 		{
 			int waited = 0;
-			while (!stream.DataAvailable)
+			while(!stream.DataAvailable)
 			{
 				Thread.Sleep(sleepTime);
-				if (timeout > 0)
+				if(timeout > 0)
 				{
-					if (waited >= timeout)
+					if(waited >= timeout)
 					{
 						return null;
 					}
@@ -87,17 +82,17 @@ class Functions
 				}
 			}
 			int maybeByte = stream.ReadByte();
-			if (maybeByte == -1)
+			if(maybeByte == -1)
 			{
 				throw new Exception("Didn't read data");
 			}
 			byte bt = (byte)maybeByte;
 			bytes.Add(bt);
-			if (bt == Packet.ENDING[matched])
+			if(bt == Packet.ENDING[matched])
 			{
 				matched++;
 			}
-			else if (bt == Packet.ENDING[0])
+			else if(bt == Packet.ENDING[0])
 			{
 				matched = 1;
 			}
@@ -111,12 +106,12 @@ class Functions
 
 	public static T DeserializePayload<T>(List<byte> payload) where T : PacketContent
 	{
-		if (payload[0] != NetworkingConstants.PacketDict[typeof(T)])
+		if(payload[0] != NetworkingConstants.PacketDict[typeof(T)])
 		{
 			Type? t = null;
-			foreach (var typ in NetworkingConstants.PacketDict)
+			foreach(var typ in NetworkingConstants.PacketDict)
 			{
-				if (typ.Value == payload[0])
+				if(typ.Value == payload[0])
 				{
 					t = typ.Key;
 					break;
@@ -130,7 +125,7 @@ class Functions
 	public static T DeserializeJson<T>(string data) where T : PacketContent
 	{
 		T? ret = JsonSerializer.Deserialize<T>(data, NetworkingConstants.jsonIncludeOption);
-		if (ret == null)
+		if(ret == null)
 		{
 			throw new Exception($"{data} deserialized to null");
 		}
@@ -138,7 +133,7 @@ class Functions
 	}
 	public static List<byte> Request(PacketContent request, string address, int port)
 	{
-		using (TcpClient client = new TcpClient())
+		using(TcpClient client = new TcpClient())
 		{
 			client.Connect(address, port);
 			return Request(request, client);
@@ -148,7 +143,7 @@ class Functions
 	public static List<byte> Request(PacketContent request, TcpClient client)
 	{
 		Stopwatch fs = Stopwatch.StartNew();
-		using (NetworkStream stream = client.GetStream())
+		using(NetworkStream stream = client.GetStream())
 		{
 			List<byte> payload = new List<byte>();
 			payload.Add(NetworkingConstants.PacketDict[request.GetType()]);

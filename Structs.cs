@@ -49,12 +49,12 @@ public class CardStruct
 	public string Format(bool inDeckEdit = false, char separator = '\n')
 	{
 		StringBuilder builder = new StringBuilder();
-		if (!inDeckEdit)
+		if(!inDeckEdit)
 		{
 			builder.Append($"UID: {uid}{separator}");
 		}
 		builder.Append($"name: {name}{separator}");
-		if (card_type != GameConstants.CardType.Quest)
+		if(card_type != GameConstants.CardType.Quest)
 		{
 			builder.Append($"{separator}cost: {cost}");
 		}
@@ -64,19 +64,19 @@ public class CardStruct
 		}
 		builder.Append($"{separator}card_type: {card_type}");
 		builder.Append($"{separator}class: {card_class}");
-		if (!inDeckEdit)
+		if(!inDeckEdit)
 		{
 			builder.Append($"{separator}location: {location}");
 		}
-		if (card_type == GameConstants.CardType.Creature)
+		if(card_type == GameConstants.CardType.Creature)
 		{
 			builder.AppendJoin(separator, $"{separator}power: {power}", $"life: {life}");
-			if (location == GameConstants.Location.Field)
+			if(location == GameConstants.Location.Field)
 			{
 				builder.Append($"{separator}position: {position}");
 			}
 		}
-		else if (card_type == GameConstants.CardType.Spell && inDeckEdit)
+		else if(card_type == GameConstants.CardType.Spell && inDeckEdit)
 		{
 			builder.Append($"{separator}can_be_class_ability: {can_be_class_ability}");
 		}
@@ -349,17 +349,17 @@ public class NetworkingStructs
 				if(name == null) return null;
 				StringBuilder builder = new StringBuilder();
 				builder.Append(player_class);
-				if (ability != null)
+				if(ability != null)
 				{
 					builder.Append("\n#");
 					builder.Append(ability.name);
 				}
-				if (quest != null)
+				if(quest != null)
 				{
 					builder.Append("\n|");
 					builder.Append(quest.name);
 				}
-				foreach (var card in cards)
+				foreach(var card in cards)
 				{
 					builder.Append("\n");
 					builder.Append(card.name);
