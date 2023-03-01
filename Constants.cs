@@ -111,7 +111,6 @@ public class GameConstants
 		TurnStart,
 		MainStart,
 		BattleStart,
-		BattleZoneMarked,
 		DamageCalc,
 		TurnEnd,
 		BattleInitGained = BattleStart + InitGained,
