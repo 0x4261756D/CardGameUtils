@@ -136,16 +136,16 @@ class Functions
 		}
 		return ret;
 	}
-	public static List<byte> Request(PacketContent request, string address, int port)
+	public static List<byte> Request(PacketContent request, string address, int port, int timeout = -1)
 	{
 		using(TcpClient client = new TcpClient())
 		{
 			client.Connect(address, port);
-			return Request(request, client);
+			return Request(request, client, timeout);
 		}
 	}
 
-	public static List<byte> Request(PacketContent request, TcpClient client)
+	public static List<byte> Request(PacketContent request, TcpClient client, int timeout = -1)
 	{
 		Stopwatch fs = Stopwatch.StartNew();
 		using(NetworkStream stream = client.GetStream())
@@ -158,7 +158,7 @@ class Functions
 			stream.Write(payload.ToArray(), 0, payload.Count);
 			Log($"Sent the request after {fs.ElapsedMilliseconds} milliseconds", severity: LogSeverity.Debug);
 			// Reuse the payload list for the response
-			payload = ReceiveRawPacket(stream)!;
+			payload = ReceiveRawPacket(stream, timeout)!;
 			fs.Stop();
 			Log($"Received a response after {fs.ElapsedMilliseconds} milliseconds", severity: LogSeverity.Debug);
 			return payload;
