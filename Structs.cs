@@ -335,6 +335,16 @@ public class NetworkingStructs
 		internal class PassRequest : PacketContent
 		{
 		}
+
+		internal class ViewGraveRequest : PacketContent
+		{
+			public bool opponent;
+		}
+		internal class ViewCardsResponse : PacketContent
+		{
+			public string? message = null;
+			public CardStruct[] cards = new CardStruct[0];
+		}
 	}
 
 	public class DeckPackets
