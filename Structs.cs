@@ -338,7 +338,7 @@ public class NetworkingStructs
 
 		internal class ViewGraveRequest : PacketContent
 		{
-			public bool opponent;
+			public bool opponent = false;
 		}
 		internal class ViewCardsResponse : PacketContent
 		{
