@@ -52,7 +52,7 @@ class Functions
 		return ret;
 	}
 
-	public static T? ReceivePacket<T>(NetworkStream stream, int timeout = -1) where T : PacketContent
+	public static List<byte>? ReceivePacket<T>(NetworkStream stream, int timeout = -1) where T : PacketContent
 	{
 		List<byte>? payload = ReceiveRawPacket(stream, timeout);
 		if(payload == null)
@@ -64,7 +64,7 @@ class Functions
 			payload = ReceiveRawPacket(stream, timeout);
 			Log($"{NetworkingConstants.PacketDict.Where(x => x.Value == payload![0])}");
 		}
-		return DeserializePayload<T>(payload);
+		return payload;
 	}
 	public static List<byte>? ReceiveRawPacket(NetworkStream stream, int timeout = -1)
 	{
