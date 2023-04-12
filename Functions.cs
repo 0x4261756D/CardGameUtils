@@ -124,8 +124,7 @@ class Functions
 			}
 			throw new Exception($"Expected a packet of type {typeof(T)}({NetworkingConstants.PacketDict[typeof(T)]}) but got {t}({payload[0]}) instead");
 		}
-		payload.RemoveAt(0);
-		return DeserializeJson<T>(Encoding.UTF8.GetString(payload.ToArray()));
+		return DeserializeJson<T>(Encoding.UTF8.GetString(payload.GetRange(1, payload.Count - 1).ToArray()));
 	}
 	public static T DeserializeJson<T>(string data) where T : PacketContent
 	{
