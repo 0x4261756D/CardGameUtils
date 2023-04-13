@@ -319,7 +319,7 @@ public class NetworkingStructs
 
 			public Field ownField, oppField;
 			public int turn;
-			public bool hasInitiative;
+			public bool hasInitiative, battleDirectionLeftToRight;
 			public int? markedZone;
 		}
 
