@@ -19,8 +19,10 @@ class Replay
 	}
 	public string[] cmdlineArgs;
 	public List<GameAction> actions = new List<GameAction>();
-	public Replay(string[] cmdlineArgs)
+	public int seed;
+	public Replay(string[] cmdlineArgs, int seed)
 	{
+		this.seed = seed;
 		this.cmdlineArgs = cmdlineArgs;
 	}
 }
