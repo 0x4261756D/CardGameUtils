@@ -176,6 +176,7 @@ public class ClientConfig
 	public string? player_name;
 	public bool should_save_player_name;
 	public string server_address;
+	public string? last_deck_name;
 
 	public ClientConfig(
 		URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address)
