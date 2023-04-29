@@ -177,9 +177,10 @@ public class ClientConfig
 	public bool should_save_player_name;
 	public string server_address;
 	public string? last_deck_name;
+	public int animation_delay_in_ms;
 
 	public ClientConfig(
-		URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address)
+		URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address, int animation_delay_in_ms)
 	{
 		this.deck_edit_url = deck_edit_url;
 		this.width = width;
@@ -188,6 +189,7 @@ public class ClientConfig
 		this.should_save_player_name = should_save_player_name;
 		this.should_spawn_core = should_spawn_core;
 		this.server_address = server_address;
+		this.animation_delay_in_ms = animation_delay_in_ms;
 	}
 }
 public struct CoreInfo
