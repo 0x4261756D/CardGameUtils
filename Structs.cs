@@ -472,7 +472,13 @@ public class NetworkingStructs
 		}
 		public class StartResponse : PacketContent
 		{
-			public bool success;
+			public enum Result
+			{
+				Failure,
+				Success,
+				SuccessButWaiting,
+			}
+			public Result success;
 			public string? id;
 			public int port;
 			public string? reason;
