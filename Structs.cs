@@ -318,6 +318,7 @@ public class NetworkingStructs
 				public string name;
 				public CardStruct ability, quest;
 				public CardStruct? shownCard;
+				public string? shownReason;
 			}
 
 			public Field ownField, oppField;
