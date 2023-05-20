@@ -7,10 +7,10 @@ class Replay
 	public class GameAction
 	{
 		public int player;
-		public List<byte> packet;
+		public byte[] packet;
 		public bool clientToServer;
 
-		public GameAction(int player, List<byte> packet, bool clientToServer)
+		public GameAction(int player, byte[] packet, bool clientToServer)
 		{
 			this.player = player;
 			this.packet = packet;

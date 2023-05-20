@@ -48,68 +48,36 @@ class Functions
 		ret.Add(NetworkingConstants.PacketDict[typeof(T)]);
 		string json = JsonSerializer.Serialize(response, NetworkingConstants.jsonIncludeOption);
 		ret.AddRange(Encoding.UTF8.GetBytes(json));
-		ret.AddRange(Packet.ENDING);
+		ret.InsertRange(0, BitConverter.GetBytes(ret.Count));
 		return ret;
 	}
 
-	public static List<byte>? ReceivePacket<T>(NetworkStream stream, int timeout = -1) where T : PacketContent
+	public static ReadOnlySpan<byte> ReceivePacket<T>(NetworkStream stream) where T : PacketContent
 	{
-		List<byte>? payload = ReceiveRawPacket(stream, timeout);
+		ReadOnlySpan<byte> payload = ReceiveRawPacket(stream);
 		if(payload == null)
 		{
 			return null;
 		}
 		while(payload![0] != NetworkingConstants.PacketDict[typeof(T)])
 		{
-			payload = ReceiveRawPacket(stream, timeout);
-			Log($"Ignoring {NetworkingConstants.PacketDict.First(x => x.Value == payload![0]).Key}", severity: LogSeverity.Warning);
+			payload = ReceiveRawPacket(stream);
+			byte type = payload[0];
+			Log($"Ignoring {NetworkingConstants.PacketDict.First(x => x.Value == type).Key}", severity: LogSeverity.Warning);
 		}
 		return payload;
 	}
-	public static List<byte>? ReceiveRawPacket(NetworkStream stream, int timeout = -1)
+	public static ReadOnlySpan<byte> ReceiveRawPacket(NetworkStream stream)
 	{
-		int matched = 0;
-		List<byte> bytes = new List<byte>();
-		int sleepTime = 10;
-		while(matched < Packet.ENDING.Length)
-		{
-			int waited = 0;
-			while(!stream.DataAvailable)
-			{
-				Thread.Sleep(sleepTime);
-				if(timeout > 0)
-				{
-					if(waited >= timeout)
-					{
-						return null;
-					}
-					waited += sleepTime;
-				}
-			}
-			int maybeByte = stream.ReadByte();
-			if(maybeByte == -1)
-			{
-				throw new Exception("Didn't read data");
-			}
-			byte bt = (byte)maybeByte;
-			bytes.Add(bt);
-			if(bt == Packet.ENDING[matched])
-			{
-				matched++;
-			}
-			else if(bt == Packet.ENDING[0])
-			{
-				matched = 1;
-			}
-			else
-			{
-				matched = 0;
-			}
-		}
-		return bytes.GetRange(0, bytes.Count - Packet.ENDING.Length);
+		byte[] sizeBuffer = new byte[4];
+		stream.ReadExactly(sizeBuffer);
+		uint size = BitConverter.ToUInt32(sizeBuffer);
+		byte[] buffer = new byte[size];
+		stream.ReadExactly(buffer);
+		return buffer;
 	}
 
-	public static T DeserializePayload<T>(List<byte> payload) where T : PacketContent
+	public static T DeserializePayload<T>(ReadOnlySpan<byte> payload) where T : PacketContent
 	{
 		if(payload[0] != NetworkingConstants.PacketDict[typeof(T)])
 		{
@@ -124,7 +92,7 @@ class Functions
 			}
 			throw new Exception($"Expected a packet of type {typeof(T)}({NetworkingConstants.PacketDict[typeof(T)]}) but got {t}({payload[0]}) instead");
 		}
-		return DeserializeJson<T>(Encoding.UTF8.GetString(payload.GetRange(1, payload.Count - 1).ToArray()));
+		return DeserializeJson<T>(Encoding.UTF8.GetString(payload.Slice(1)));
 	}
 	public static T DeserializeJson<T>(string data) where T : PacketContent
 	{
@@ -135,7 +103,7 @@ class Functions
 		}
 		return ret;
 	}
-	public static List<byte> Request(PacketContent request, string address, int port, int timeout = -1)
+	public static ReadOnlySpan<byte> Request(PacketContent request, string address, int port, int timeout = -1)
 	{
 		using(TcpClient client = new TcpClient())
 		{
@@ -144,7 +112,7 @@ class Functions
 		}
 	}
 
-	public static List<byte> Request(PacketContent request, TcpClient client, int timeout = -1)
+	public static ReadOnlySpan<byte> Request(PacketContent request, TcpClient client, int timeout = -1)
 	{
 		using(NetworkStream stream = client.GetStream())
 		{
@@ -152,11 +120,10 @@ class Functions
 			payload.Add(NetworkingConstants.PacketDict[request.GetType()]);
 			string json = JsonSerializer.Serialize(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
 			payload.AddRange(Encoding.UTF8.GetBytes(json));
-			payload.AddRange(Packet.ENDING);
+			payload.InsertRange(0, BitConverter.GetBytes(payload.Count));
 			stream.Write(payload.ToArray(), 0, payload.Count);
 			// Reuse the payload list for the response
-			payload = ReceiveRawPacket(stream)!;
-			return payload;
+			return ReceiveRawPacket(stream);
 		}
 	}
 }

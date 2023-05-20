@@ -231,9 +231,9 @@ public class NetworkingStructs
 	// 		 accessing it's type and then parsing it's content is enough.
 	public class Packet
 	{
+		public int length;
 		public byte type;
 		public PacketContent content = new PacketContent();
-		public static byte[] ENDING = Encoding.ASCII.GetBytes("|END|");
 	}
 	public class PacketContent { }
 	public class DuelPackets
