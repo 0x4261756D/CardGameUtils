@@ -52,7 +52,7 @@ class Functions
 		return ret;
 	}
 
-	public static (byte, byte[]?)? TryReceivePacket<T>(NetworkStream stream, long timeoutMs) where T : PacketContent
+	public static byte[]? TryReceivePacket<T>(NetworkStream stream, long timeoutMs) where T : PacketContent
 	{
 		Stopwatch watch = Stopwatch.StartNew();
 		if(!stream.CanRead)
@@ -69,19 +69,15 @@ class Functions
 		}
 		return ReceivePacket<T>(stream);
 	}
-	public static (byte, byte[]?) ReceivePacket<T>(NetworkStream stream) where T : PacketContent
+	public static byte[]? ReceivePacket<T>(NetworkStream stream) where T : PacketContent
 	{
 		(byte type, byte[]? payload) = ReceiveRawPacket(stream);
-		if(payload == null)
-		{
-			return (type, payload);
-		}
 		while(type != NetworkingConstants.PacketDict[typeof(T)])
 		{
 			(type, payload) = ReceiveRawPacket(stream);
 			Log($"Ignoring {NetworkingConstants.PacketDict.First(x => x.Value == type).Key}", severity: LogSeverity.Warning);
 		}
-		return (type, payload);
+		return payload;
 	}
 
 	public static (byte, byte[]?)? TryReceiveRawPacket(NetworkStream stream, long timeoutMs)
