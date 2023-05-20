@@ -66,34 +66,47 @@ class Functions
 		}
 		return payload;
 	}
-
-	public static List<byte> remaining = new List<byte>();
-	public static List<byte>? ReceiveRawPacket(NetworkStream stream, long timeoutMs = -1)
+	public static List<byte>? ReceiveRawPacket(NetworkStream stream, int timeout = -1)
 	{
-		byte[] b = new byte[1024];
-		Span<byte> buffer = new Span<byte>(b);
-		Stopwatch? watch = null;
-		if(timeoutMs != -1) watch = Stopwatch.StartNew();
-		while(timeoutMs == -1 || watch?.ElapsedMilliseconds < timeoutMs)
+		int matched = 0;
+		List<byte> bytes = new List<byte>();
+		int sleepTime = 10;
+		while(matched < Packet.ENDING.Length)
 		{
-			if(remaining.Count >= Packet.ENDING.Length + 3)
+			int waited = 0;
+			while(!stream.DataAvailable)
 			{
-				int index = remaining.IndexOf(Packet.ENDING[0]);
-				while(index != -1 && index + Packet.ENDING.Length <= remaining.Count)
+				Thread.Sleep(sleepTime);
+				if(timeout > 0)
 				{
-					if(remaining.GetRange(index, Packet.ENDING.Length).SequenceEqual(Packet.ENDING))
+					if(waited >= timeout)
 					{
-						List<byte> ret = remaining.Take(index).ToList();
-						remaining.RemoveRange(0, index + Packet.ENDING.Length);
-						return ret;
+						return null;
 					}
-					index = remaining.IndexOf(Packet.ENDING[0], index + 1);
+					waited += sleepTime;
 				}
 			}
-			int count = stream.ReadAtLeast(buffer, Packet.ENDING.Length + 3, throwOnEndOfStream: false);
-			remaining.AddRange(buffer.Slice(0, count).ToArray());
+			int maybeByte = stream.ReadByte();
+			if(maybeByte == -1)
+			{
+				throw new Exception("Didn't read data");
+			}
+			byte bt = (byte)maybeByte;
+			bytes.Add(bt);
+			if(bt == Packet.ENDING[matched])
+			{
+				matched++;
+			}
+			else if(bt == Packet.ENDING[0])
+			{
+				matched = 1;
+			}
+			else
+			{
+				matched = 0;
+			}
 		}
-		return null;
+		return bytes.GetRange(0, bytes.Count - Packet.ENDING.Length);
 	}
 
 	public static T DeserializePayload<T>(List<byte> payload) where T : PacketContent
