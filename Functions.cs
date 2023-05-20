@@ -52,6 +52,23 @@ class Functions
 		return ret;
 	}
 
+	public static (byte, byte[]?)? TryReceivePacket<T>(NetworkStream stream, long timeoutMs) where T : PacketContent
+	{
+		Stopwatch watch = Stopwatch.StartNew();
+		if(!stream.CanRead)
+		{
+			return null;
+		}
+		while(!stream.DataAvailable)
+		{
+			Thread.Sleep(10);
+			if(!stream.CanRead || (timeoutMs != -1 && watch.ElapsedMilliseconds > timeoutMs))
+			{
+				return null;
+			}
+		}
+		return ReceivePacket<T>(stream);
+	}
 	public static (byte, byte[]?) ReceivePacket<T>(NetworkStream stream) where T : PacketContent
 	{
 		(byte type, byte[]? payload) = ReceiveRawPacket(stream);
