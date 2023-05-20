@@ -114,16 +114,35 @@ class Functions
 		}
 		return ret;
 	}
-	public static ReadOnlySpan<byte> Request(PacketContent request, string address, int port, int timeout = -1)
+	public static ReadOnlySpan<byte> Request(PacketContent request, string address, int port)
 	{
 		using(TcpClient client = new TcpClient())
 		{
 			client.Connect(address, port);
-			return Request(request, client, timeout);
+			return Request(request, client);
 		}
 	}
 
-	public static ReadOnlySpan<byte> Request(PacketContent request, TcpClient client, int timeout = -1)
+	public static async Task<ReadOnlyMemory<byte>> RequestAsync(PacketContent request, string address, int port)
+	{
+		using TcpClient client = new TcpClient();
+		await client.ConnectAsync(address, port);
+		return await RequestAsync(request, client);
+	}
+
+	public static async Task<ReadOnlyMemory<byte>> RequestAsync(PacketContent request, TcpClient client)
+	{
+		using NetworkStream stream = client.GetStream();
+		List<byte> payload = new List<byte>();
+		payload.Add(NetworkingConstants.PacketDict[request.GetType()]);
+		string json = JsonSerializer.Serialize(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
+		payload.AddRange(Encoding.UTF8.GetBytes(json));
+		payload.InsertRange(0, BitConverter.GetBytes(payload.Count));
+		await stream.WriteAsync(payload.ToArray(), 0, payload.Count);
+		return await ReceiveRawPacketAsync(stream);
+	}
+
+	public static ReadOnlySpan<byte> Request(PacketContent request, TcpClient client)
 	{
 		using(NetworkStream stream = client.GetStream())
 		{
