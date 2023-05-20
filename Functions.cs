@@ -87,7 +87,7 @@ class Functions
 						remaining.RemoveRange(0, index + Packet.ENDING.Length);
 						return ret;
 					}
-					index = remaining.IndexOf(Packet.ENDING[0], index);
+					index = remaining.IndexOf(Packet.ENDING[0], index + 1);
 				}
 			}
 			int count = stream.ReadAtLeast(buffer, Packet.ENDING.Length + 3, throwOnEndOfStream: false);
