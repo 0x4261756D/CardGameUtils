@@ -62,7 +62,7 @@ class Functions
 		while(payload![0] != NetworkingConstants.PacketDict[typeof(T)])
 		{
 			payload = ReceiveRawPacket(stream, timeout);
-			Log($"{NetworkingConstants.PacketDict.First(x => x.Value == payload![0]).Key}");
+			Log($"Ignoring {NetworkingConstants.PacketDict.First(x => x.Value == payload![0]).Key}", severity: LogSeverity.Warning);
 		}
 		return payload;
 	}
