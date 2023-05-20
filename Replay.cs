@@ -7,7 +7,7 @@ class Replay
 	public class GameAction
 	{
 		public int player;
-		public (byte, byte[]?) packet;
+		public (byte type, byte[]? content) packet;
 		public bool clientToServer;
 
 		public GameAction(int player, byte packetType, byte[]? packet, bool clientToServer)

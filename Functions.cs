@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -73,6 +77,10 @@ class Functions
 		return (buffer[0], buffer.Length > 0 ? buffer.Slice(1).ToArray() : null);
 	}
 
+	public static T DeserializePayload<T>((byte type, byte[]? payload) input) where T : PacketContent
+	{
+		return DeserializePayload<T>(input.type, input.payload);
+	}
 	public static T DeserializePayload<T>(byte type, byte[]? payload) where T : PacketContent
 	{
 		if(payload == null)
