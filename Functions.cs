@@ -68,6 +68,17 @@ class Functions
 		}
 		return payload;
 	}
+	public static async Task<ReadOnlyMemory<byte>> ReceivePacketAsync<T>(NetworkStream stream) where T : PacketContent
+	{
+		ReadOnlyMemory<byte> payload = await ReceiveRawPacketAsync(stream);
+		while(payload.Span[0] != NetworkingConstants.PacketDict[typeof(T)])
+		{
+			payload = await ReceiveRawPacketAsync(stream);
+			byte type = payload.Span[0];
+			Log($"Ignoring {NetworkingConstants.PacketDict.First(x => x.Value == type).Key}", severity: LogSeverity.Warning);
+		}
+		return payload;
+	}
 	public static ReadOnlySpan<byte> ReceiveRawPacket(NetworkStream stream)
 	{
 		byte[] sizeBuffer = new byte[4];
