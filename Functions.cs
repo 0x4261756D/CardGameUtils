@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
 using static CardGameUtils.Structs.NetworkingStructs;
 
 namespace CardGameUtils;
@@ -74,6 +75,16 @@ class Functions
 		uint size = BitConverter.ToUInt32(sizeBuffer);
 		byte[] buffer = new byte[size];
 		stream.ReadExactly(buffer);
+		return buffer;
+	}
+
+	public static async Task<ReadOnlyMemory<byte>> ReceiveRawPacketAsync(NetworkStream stream)
+	{
+		byte[] sizeBuffer = new byte[4];
+		await stream.ReadExactlyAsync(sizeBuffer);
+		uint size = BitConverter.ToUInt32(sizeBuffer);
+		byte[] buffer = new byte[size];
+		await stream.ReadExactlyAsync(buffer);
 		return buffer;
 	}
 
