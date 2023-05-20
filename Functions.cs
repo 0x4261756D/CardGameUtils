@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using static CardGameUtils.Structs.NetworkingStructs;
 
 namespace CardGameUtils;
@@ -64,6 +65,24 @@ class Functions
 			Log($"Ignoring {NetworkingConstants.PacketDict.First(x => x.Value == type).Key}", severity: LogSeverity.Warning);
 		}
 		return (type, payload);
+	}
+
+	public static (byte, byte[]?)? TryReceiveRawPacket(NetworkStream stream, long timeoutMs)
+	{
+		Stopwatch watch = Stopwatch.StartNew();
+		if(!stream.CanRead)
+		{
+			return null;
+		}
+		while(!stream.DataAvailable)
+		{
+			Thread.Sleep(10);
+			if(!stream.CanRead || (timeoutMs != -1 && watch.ElapsedMilliseconds > timeoutMs))
+			{
+				return null;
+			}
+		}
+		return ReceiveRawPacket(stream);
 	}
 	public static (byte, byte[]?) ReceiveRawPacket(NetworkStream stream)
 	{
