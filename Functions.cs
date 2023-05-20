@@ -146,7 +146,6 @@ class Functions
 
 	public static List<byte> Request(PacketContent request, TcpClient client, int timeout = -1)
 	{
-		Stopwatch fs = Stopwatch.StartNew();
 		using(NetworkStream stream = client.GetStream())
 		{
 			List<byte> payload = new List<byte>();
@@ -155,11 +154,8 @@ class Functions
 			payload.AddRange(Encoding.UTF8.GetBytes(json));
 			payload.AddRange(Packet.ENDING);
 			stream.Write(payload.ToArray(), 0, payload.Count);
-			Log($"Sent the request after {fs.ElapsedMilliseconds} milliseconds", severity: LogSeverity.Debug);
 			// Reuse the payload list for the response
-			payload = ReceiveRawPacket(stream, timeout)!;
-			fs.Stop();
-			Log($"Received a response after {fs.ElapsedMilliseconds} milliseconds", severity: LogSeverity.Debug);
+			payload = ReceiveRawPacket(stream)!;
 			return payload;
 		}
 	}
