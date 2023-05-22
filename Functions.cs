@@ -46,8 +46,8 @@ class Functions
 	{
 		List<byte> ret = new List<byte>();
 		ret.Add(NetworkingConstants.PacketDict[typeof(T)]);
-		string json = JsonSerializer.Serialize(response, NetworkingConstants.jsonIncludeOption);
-		ret.AddRange(Encoding.UTF8.GetBytes(json));
+		byte[] json = JsonSerializer.SerializeToUtf8Bytes(response, NetworkingConstants.jsonIncludeOption);
+		ret.AddRange(json);
 		ret.InsertRange(0, BitConverter.GetBytes(ret.Count));
 		return ret;
 	}
@@ -132,9 +132,9 @@ class Functions
 			}
 			throw new Exception($"Expected a packet of type {typeof(T)}({NetworkingConstants.PacketDict[typeof(T)]}) but got {t}({type}) instead");
 		}
-		return DeserializeJson<T>(Encoding.UTF8.GetString(payload));
+		return DeserializeJson<T>(payload);
 	}
-	public static T DeserializeJson<T>(string data) where T : PacketContent
+	public static T DeserializeJson<T>(byte[] data) where T : PacketContent
 	{
 		T? ret = JsonSerializer.Deserialize<T>(data, NetworkingConstants.jsonIncludeOption);
 		if(ret == null)
@@ -158,8 +158,8 @@ class Functions
 		{
 			List<byte> payload = new List<byte>();
 			payload.Add(NetworkingConstants.PacketDict[request.GetType()]);
-			string json = JsonSerializer.Serialize(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
-			payload.AddRange(Encoding.UTF8.GetBytes(json));
+			byte[] json = JsonSerializer.SerializeToUtf8Bytes(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
+			payload.AddRange(json);
 			payload.InsertRange(0, BitConverter.GetBytes(payload.Count));
 			stream.Write(payload.ToArray(), 0, payload.Count);
 			// Reuse the payload list for the response
