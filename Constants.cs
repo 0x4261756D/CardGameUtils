@@ -161,3 +161,14 @@ public class GameConstants
 		ALL = Deck | Hand | Field | Grave,
 	}
 }
+
+public class ClientConstants
+{
+	public static Dictionary<string, string> KeywordDescriptions = new Dictionary<string, string>
+	{
+		{ "Brittle", "The creature dies at the end of the turn" },
+		{ "Colossal", "The creature needs X additional momentum to move" },
+		{ "Decaying", "The creature loses 1 Life at the end of the turn" },
+		{ "Gather", "Look at the top X cards of your deck, add 1 of them to your hand" },
+	};
+}
