@@ -8,7 +8,7 @@ public class CardStruct
 	public GameConstants.CardType card_type;
 	public GameConstants.PlayerClass card_class;
 	public GameConstants.Location location;
-	public int uid, life, power, cost, position, controller;
+	public int uid, life, power, cost, base_life, base_power, base_cost, position, controller;
 	public bool is_class_ability;
 	public bool can_be_class_ability;
 	public CardStruct(string name,
@@ -16,6 +16,7 @@ public class CardStruct
 		GameConstants.CardType card_type,
 		GameConstants.PlayerClass card_class,
 		int uid, int life, int power, int cost,
+		int base_life, int base_power, int base_cost,
 		GameConstants.Location location, int position,
 		bool is_class_ability,
 		bool can_be_class_ability,
@@ -29,6 +30,9 @@ public class CardStruct
 		this.life = life;
 		this.power = power;
 		this.cost = cost;
+		this.base_life = base_life;
+		this.base_power = base_power;
+		this.base_cost = base_cost;
 		this.location = location;
 		this.position = position;
 		this.is_class_ability = is_class_ability;
@@ -56,7 +60,7 @@ public class CardStruct
 		builder.Append($"name: {name}{separator}");
 		if(card_type != GameConstants.CardType.Quest)
 		{
-			builder.Append($"{separator}cost: {cost}");
+			builder.Append($"{separator}cost: {cost}/{base_cost}");
 		}
 		else
 		{
@@ -70,7 +74,7 @@ public class CardStruct
 		}
 		if(card_type == GameConstants.CardType.Creature)
 		{
-			builder.AppendJoin(separator, $"{separator}power: {power}", $"life: {life}");
+			builder.AppendJoin(separator, $"{separator}power: {power}/{base_power}", $"life: {life}/{base_life}");
 			if(location == GameConstants.Location.Field)
 			{
 				builder.Append($"{separator}position: {position}");
