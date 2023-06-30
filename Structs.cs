@@ -58,13 +58,17 @@ public class CardStruct
 			builder.Append($"UID: {uid}{separator}");
 		}
 		builder.Append($"name: {name}{separator}");
-		if(card_type != GameConstants.CardType.Quest)
+		if(card_type == GameConstants.CardType.Quest)
 		{
-			builder.Append($"{separator}cost: {cost}/{base_cost}");
+			builder.Append($"{separator}quest progress: {position}/{cost}");
 		}
 		else
 		{
-			builder.Append($"{separator}quest progress: {position}/{cost}");
+			builder.Append($"{separator}cost: {cost}");
+			if(inDeckEdit)
+			{
+				builder.Append($"/{base_cost}");
+			}
 		}
 		builder.Append($"{separator}card_type: {card_type}");
 		builder.Append($"{separator}class: {card_class}");
@@ -74,7 +78,7 @@ public class CardStruct
 		}
 		if(card_type == GameConstants.CardType.Creature)
 		{
-			builder.AppendJoin(separator, $"{separator}power: {power}/{base_power}", $"life: {life}/{base_life}");
+			builder.AppendJoin(separator, $"{separator}power: {power}{(inDeckEdit ? "" : "/" + base_power)}", $"life: {life}{(inDeckEdit ? "" : "/" + base_life)}");
 			if(location == GameConstants.Location.Field)
 			{
 				builder.Append($"{separator}position: {position}");
