@@ -62,6 +62,10 @@ public class CardStruct
 		{
 			builder.Append($"{separator}quest progress: {position}/{cost}");
 		}
+		else if(location == GameConstants.Location.Ability)
+		{
+			builder.Append($"{separator}cost: 1");
+		}
 		else
 		{
 			builder.Append($"{separator}cost: {cost}");
