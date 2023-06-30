@@ -69,7 +69,7 @@ public class CardStruct
 		else
 		{
 			builder.Append($"{separator}cost: {cost}");
-			if(inDeckEdit)
+			if(!inDeckEdit)
 			{
 				builder.Append($"/{base_cost}");
 			}
