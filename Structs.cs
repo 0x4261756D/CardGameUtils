@@ -50,6 +50,17 @@ public class CardStruct
 		return Format(separator: '|');
 	}
 
+	public override bool Equals(object? other)
+	{
+		if(other == null) return false;
+		return this.uid == ((CardStruct)other).uid;
+	}
+
+	public override int GetHashCode()
+	{
+		return System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(this);
+	}
+
 	public string Format(bool inDeckEdit = false, char separator = '\n')
 	{
 		StringBuilder builder = new StringBuilder();
@@ -238,8 +249,8 @@ public class ServerConfig
 
 public class NetworkingStructs
 {
-	// NOTE: The packet class exists for reference only, 
-	// 		 in practive it is unnecessary to actually serialize a packet, 
+	// NOTE: The packet class exists for reference only,
+	// 		 in practive it is unnecessary to actually serialize a packet,
 	// 		 accessing it's type and then parsing it's content is enough.
 	public class Packet
 	{
