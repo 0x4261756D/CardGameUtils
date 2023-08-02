@@ -192,6 +192,13 @@ public class PlatformClientConfig
 
 public class ClientConfig
 {
+	public enum ThemeVariant
+	{
+		Default,
+		Dark,
+		Light,
+	}
+
 	public URL deck_edit_url;
 	public int width, height;
 	public bool should_spawn_core;
@@ -201,9 +208,10 @@ public class ClientConfig
 	public string server_address;
 	public string? last_deck_name;
 	public int animation_delay_in_ms;
+	public ThemeVariant? theme;
 
 	public ClientConfig(
-		URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address, int animation_delay_in_ms)
+		URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address, int animation_delay_in_ms, ThemeVariant? theme)
 	{
 		this.deck_edit_url = deck_edit_url;
 		this.width = width;
@@ -213,6 +221,7 @@ public class ClientConfig
 		this.should_spawn_core = should_spawn_core;
 		this.server_address = server_address;
 		this.animation_delay_in_ms = animation_delay_in_ms;
+		this.theme = theme;
 	}
 }
 public struct CoreInfo
