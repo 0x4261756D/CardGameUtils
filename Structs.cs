@@ -8,7 +8,7 @@ public class CardStruct
 	public GameConstants.CardType card_type;
 	public GameConstants.PlayerClass card_class;
 	public GameConstants.Location location;
-	public int uid, life, power, cost, base_life, base_power, base_cost, position, controller;
+	public int uid, life, power, cost, base_life, base_power, base_cost, position, controller, base_controller;
 	public bool is_class_ability;
 	public bool can_be_class_ability;
 	public CardStruct(string name,
@@ -20,7 +20,8 @@ public class CardStruct
 		GameConstants.Location location, int position,
 		bool is_class_ability,
 		bool can_be_class_ability,
-		int controller)
+		int controller,
+		int base_controller)
 	{
 		this.name = name;
 		this.text = text;
@@ -38,6 +39,7 @@ public class CardStruct
 		this.is_class_ability = is_class_ability;
 		this.can_be_class_ability = can_be_class_ability;
 		this.controller = controller;
+		this.base_controller = base_controller;
 	}
 	public CardStruct()
 	{
@@ -84,6 +86,11 @@ public class CardStruct
 			{
 				builder.Append($"/{base_cost}");
 			}
+		}
+		builder.Append($"{separator}controller: {controller}");
+		if(!inDeckEdit)
+		{
+			builder.Append($"/{base_controller}");
 		}
 		builder.Append($"{separator}card_type: {card_type}");
 		builder.Append($"{separator}class: {card_class}");
