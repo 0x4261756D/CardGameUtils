@@ -443,6 +443,7 @@ public class NetworkingStructs
 		{
 			public string? filter;
 			public GameConstants.PlayerClass playerClass;
+			public bool includeGenericCards;
 		}
 		public class SearchResponse : PacketContent
 		{
