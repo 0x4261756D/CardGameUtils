@@ -87,10 +87,9 @@ public class CardStruct
 				builder.Append($"/{base_cost}");
 			}
 		}
-		builder.Append($"{separator}controller: {controller}");
 		if(!inDeckEdit)
 		{
-			builder.Append($"/{base_controller}");
+			builder.Append($"{separator}controller: {controller}/{base_controller}");
 		}
 		builder.Append($"{separator}card_type: {card_type}");
 		builder.Append($"{separator}class: {card_class}");
