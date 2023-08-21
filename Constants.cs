@@ -170,5 +170,6 @@ public class ClientConstants
 		{ "Colossal", "The creature needs X additional momentum to move" },
 		{ "Decaying", "The creature loses 1 Life at the end of the turn" },
 		{ "Gather", "Look at the top X cards of your deck, add 1 of them to your hand" },
+		{ "Immovable", "This creature can not be moved" },
 	};
 }
