@@ -464,10 +464,11 @@ public class NetworkingStructs
 	{
 		public class AdditionalCardsRequest : PacketContent
 		{
+			public DateTime time;
 		}
 		public class AdditionalCardsResponse : PacketContent
 		{
-			public CardStruct[] cards = new CardStruct[0];
+			public CardStruct[]? cards = null;
 		}
 
 		public class CreateRequest : PacketContent
