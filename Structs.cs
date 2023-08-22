@@ -467,8 +467,8 @@ public class NetworkingStructs
 		}
 		public class AdditionalCardsResponse : PacketContent
 		{
-			public byte[] hash = new byte[0];
-			public CardStruct[]? cards = null;
+			public DateTime time;
+			public CardStruct[] cards = new CardStruct[0];
 		}
 
 		public class CreateRequest : PacketContent
