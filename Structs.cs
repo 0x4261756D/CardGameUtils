@@ -464,10 +464,10 @@ public class NetworkingStructs
 	{
 		public class AdditionalCardsRequest : PacketContent
 		{
-			public byte[] hash = new byte[0];
 		}
 		public class AdditionalCardsResponse : PacketContent
 		{
+			public byte[] hash = new byte[0];
 			public CardStruct[]? cards = null;
 		}
 
