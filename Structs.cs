@@ -464,7 +464,7 @@ public class NetworkingStructs
 	{
 		public class AdditionalCardsRequest : PacketContent
 		{
-			public DateTime time;
+			public byte[] hash = new byte[0];
 		}
 		public class AdditionalCardsResponse : PacketContent
 		{
