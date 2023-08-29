@@ -16,6 +16,13 @@ class Replay
 		{
 			return Convert.FromBase64String(packetContent);
 		}
+		public byte[] fullPacketBytes()
+		{
+			List<byte> packet = packetContentBytes().ToList();
+			packet.Insert(0, packetType);
+			packet.InsertRange(0, BitConverter.GetBytes(packet.Count));
+			return packet.ToArray();
+		}
 		public bool clientToServer;
 
 		public GameAction(int player, byte packetType, byte[]? packet, bool clientToServer) : this(player, packetType, Convert.ToBase64String(packet!), clientToServer)
