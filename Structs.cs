@@ -216,9 +216,10 @@ public class ClientConfig
 	public string? last_deck_name;
 	public int animation_delay_in_ms;
 	public ThemeVariant? theme;
+	public string? picture_path;
 
 	public ClientConfig(
-		URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address, int animation_delay_in_ms, ThemeVariant? theme)
+		URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address, int animation_delay_in_ms, ThemeVariant? theme, string? picture_path)
 	{
 		this.deck_edit_url = deck_edit_url;
 		this.width = width;
@@ -229,6 +230,7 @@ public class ClientConfig
 		this.server_address = server_address;
 		this.animation_delay_in_ms = animation_delay_in_ms;
 		this.theme = theme;
+		this.picture_path = picture_path;
 	}
 }
 public struct CoreInfo
