@@ -53,6 +53,11 @@ public class NetworkingConstants
 		PACKET_COUNT,
 	}
 	public static readonly JsonSerializerOptions jsonIncludeOption = new() { IncludeFields = true };
+	public static readonly JsonSerializerOptions jsonPrettyOption = new()
+	{
+		WriteIndented = true,
+		IncludeFields = true,
+	};
 	public static readonly Dictionary<Type, byte> PacketDict = new()
 	{
 		{typeof(Structs.NetworkingStructs.DeckPackets.NamesRequest), (byte)PacketType.DeckNamesRequest},

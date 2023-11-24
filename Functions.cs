@@ -42,13 +42,15 @@ class Functions
 		Console.ForegroundColor = current;
 	}
 
-	public static List<byte> GeneratePayload<T>(T response)
+	public static byte[] GeneratePayload<T>(T response)
 	{
-		List<byte> ret = [NetworkingConstants.PacketDict[typeof(T)]];
 		byte[] json = JsonSerializer.SerializeToUtf8Bytes(response, NetworkingConstants.jsonIncludeOption);
-		ret.AddRange(json);
-		ret.InsertRange(0, BitConverter.GetBytes(ret.Count));
-		return ret;
+		return
+		[
+			.. BitConverter.GetBytes(json.Length + 1),
+			NetworkingConstants.PacketDict[typeof(T)],
+			.. json,
+		];
 	}
 
 	public static byte[]? TryReceivePacket<T>(NetworkStream stream, long timeoutMs) where T : PacketContent
@@ -147,11 +149,14 @@ class Functions
 	public static (byte, byte[]?) Request(PacketContent request, TcpClient client)
 	{
 		using NetworkStream stream = client.GetStream();
-		List<byte> payload = [NetworkingConstants.PacketDict[request.GetType()]];
 		byte[] json = JsonSerializer.SerializeToUtf8Bytes(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
-		payload.AddRange(json);
-		payload.InsertRange(0, BitConverter.GetBytes(payload.Count));
-		stream.Write([.. payload], 0, payload.Count);
+		byte[] payload =
+		[
+			.. BitConverter.GetBytes(json.Length + 1),
+			NetworkingConstants.PacketDict[request.GetType()],
+			.. json,
+		];
+		stream.Write(payload);
 		// Reuse the payload list for the response
 		return ReceiveRawPacket(stream);
 	}
