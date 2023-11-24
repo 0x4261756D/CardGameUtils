@@ -56,7 +56,7 @@ public class CardStruct
 	public override bool Equals(object? other)
 	{
 		if(other == null) return false;
-		return this.uid == ((CardStruct)other).uid;
+		return uid == ((CardStruct)other).uid;
 	}
 
 	public override int GetHashCode()
@@ -66,7 +66,7 @@ public class CardStruct
 
 	public string Format(bool inDeckEdit = false, char separator = '\n')
 	{
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new();
 		if(!inDeckEdit)
 		{
 			builder.Append($"UID: {uid}{separator}");
@@ -116,16 +116,10 @@ public class CardStruct
 }
 
 
-public class URL
+public class URL(string address, int port)
 {
-	public string address;
-	public int port;
-
-	public URL(string address, int port)
-	{
-		this.address = address;
-		this.port = port;
-	}
+	public string address = address;
+	public int port = port;
 }
 
 public class PlatformCoreConfig
@@ -133,63 +127,35 @@ public class PlatformCoreConfig
 	public CoreConfig? windows, linux;
 }
 
-public class CoreConfig
+public class CoreConfig(int port, CoreConfig.CoreMode mode, CoreConfig.DuelConfig? duel_config = null, CoreConfig.DeckConfig? deck_config = null)
 {
 	public enum CoreMode
 	{
 		Duel,
 		Client,
 	}
-	public class DuelConfig
+	public class DuelConfig(PlayerConfig[] players, bool noshuffle)
 	{
-		public PlayerConfig[] players;
-		public bool noshuffle;
-
-		public DuelConfig(PlayerConfig[] players, bool noshuffle)
-		{
-			this.players = players;
-			this.noshuffle = noshuffle;
-		}
+		public PlayerConfig[] players = players;
+		public bool noshuffle = noshuffle;
 	}
-	public class PlayerConfig
+	public class PlayerConfig(string name, string[] decklist, string id)
 	{
-		public string name;
-		public string[] decklist;
-		public string id;
-
-		public PlayerConfig(string name, string[] decklist, string id)
-		{
-			this.name = name;
-			this.decklist = decklist;
-			this.id = id;
-		}
+		public string name = name;
+		public string[] decklist = decklist;
+		public string id = id;
 	}
-	public class DeckConfig
+	public class DeckConfig(URL additional_cards_url, string deck_location, bool should_fetch_additional_cards)
 	{
-		public string deck_location;
-		public bool should_fetch_additional_cards;
-		public URL additional_cards_url;
-
-		public DeckConfig(URL additional_cards_url, string deck_location, bool should_fetch_additional_cards)
-		{
-			this.additional_cards_url = additional_cards_url;
-			this.deck_location = deck_location;
-			this.should_fetch_additional_cards = should_fetch_additional_cards;
-		}
+		public string deck_location = deck_location;
+		public bool should_fetch_additional_cards = should_fetch_additional_cards;
+		public URL additional_cards_url = additional_cards_url;
 	}
 
-	public int port;
-	public CoreMode mode;
-	public DuelConfig? duel_config;
-	public DeckConfig? deck_config;
-
-	public CoreConfig(int port, CoreMode mode, DuelConfig? duel_config = null, DeckConfig? deck_config = null)
-	{
-		this.port = port;
-		this.mode = mode;
-		this.duel_config = duel_config;
-		this.deck_config = deck_config;
-	}
+	public int port = port;
+	public CoreMode mode = mode;
+	public DuelConfig? duel_config = duel_config;
+	public DeckConfig? deck_config = deck_config;
 }
 
 public class PlatformClientConfig
@@ -197,7 +163,8 @@ public class PlatformClientConfig
 	public ClientConfig? windows, linux;
 }
 
-public class ClientConfig
+public class ClientConfig(
+	URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address, int animation_delay_in_ms, ClientConfig.ThemeVariant? theme, string? picture_path)
 {
 	public enum ThemeVariant
 	{
@@ -206,32 +173,17 @@ public class ClientConfig
 		Light,
 	}
 
-	public URL deck_edit_url;
-	public int width, height;
-	public bool should_spawn_core;
-	public CoreInfo core_info;
+	public URL deck_edit_url = deck_edit_url;
+	public int width = width, height = height;
+	public bool should_spawn_core = should_spawn_core;
+	public CoreInfo core_info = core_info;
 	public string? player_name;
-	public bool should_save_player_name;
-	public string server_address;
+	public bool should_save_player_name = should_save_player_name;
+	public string server_address = server_address;
 	public string? last_deck_name;
-	public int animation_delay_in_ms;
-	public ThemeVariant? theme;
-	public string? picture_path;
-
-	public ClientConfig(
-		URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address, int animation_delay_in_ms, ThemeVariant? theme, string? picture_path)
-	{
-		this.deck_edit_url = deck_edit_url;
-		this.width = width;
-		this.height = height;
-		this.core_info = core_info;
-		this.should_save_player_name = should_save_player_name;
-		this.should_spawn_core = should_spawn_core;
-		this.server_address = server_address;
-		this.animation_delay_in_ms = animation_delay_in_ms;
-		this.theme = theme;
-		this.picture_path = picture_path;
-	}
+	public int animation_delay_in_ms = animation_delay_in_ms;
+	public ThemeVariant? theme = theme;
+	public string? picture_path = picture_path;
 }
 public struct CoreInfo
 {
@@ -248,21 +200,12 @@ public struct PlatformServerConfig
 {
 	public ServerConfig windows, linux;
 }
-public class ServerConfig
+public class ServerConfig(string additional_cards_path, int port, int room_min_port, int room_max_port, CoreInfo core_info)
 {
-	public CoreInfo core_info;
-	public int port;
-	public int room_min_port, room_max_port;
-	public string additional_cards_path;
-
-	public ServerConfig(string additional_cards_path, int port, int room_min_port, int room_max_port, CoreInfo core_info)
-	{
-		this.additional_cards_path = additional_cards_path;
-		this.port = port;
-		this.room_max_port = room_max_port;
-		this.room_min_port = room_min_port;
-		this.core_info = core_info;
-	}
+	public CoreInfo core_info = core_info;
+	public int port = port;
+	public int room_min_port = room_min_port, room_max_port = room_max_port;
+	public string additional_cards_path = additional_cards_path;
 }
 
 public class NetworkingStructs
@@ -274,7 +217,7 @@ public class NetworkingStructs
 	{
 		public int length;
 		public byte type;
-		public PacketContent content = new PacketContent();
+		public PacketContent content = new();
 	}
 	public class PacketContent { }
 	public class DuelPackets
@@ -298,7 +241,7 @@ public class NetworkingStructs
 			public GameConstants.Location location;
 			public int uid;
 			// TODO: this might not be the way to do this
-			public string[] options = new string[0];
+			public string[] options = [];
 		}
 
 		public class SelectOptionRequest : PacketContent
@@ -319,29 +262,29 @@ public class NetworkingStructs
 
 		public class SelectCardsRequest : PacketContent
 		{
-			public CardStruct[] cards = new CardStruct[0];
+			public CardStruct[] cards = [];
 			public int amount;
 			public string? desc;
 		}
 		public class SelectCardsResponse : PacketContent
 		{
-			public int[] uids = new int[0];
+			public int[] uids = [];
 		}
 
 		public class CustomSelectCardsRequest : PacketContent
 		{
-			public CardStruct[] cards = new CardStruct[0];
+			public CardStruct[] cards = [];
 			public string? desc;
 			public bool initialState;
 		}
 		public class CustomSelectCardsResponse : PacketContent
 		{
-			public int[] uids = new int[0];
+			public int[] uids = [];
 		}
 
 		public class CustomSelectCardsIntermediateRequest : PacketContent
 		{
-			public int[] uids = new int[0];
+			public int[] uids = [];
 		}
 		public class CustomSelectCardsIntermediateResponse : PacketContent
 		{
@@ -370,7 +313,7 @@ public class NetworkingStructs
 
 		public class SelectZoneRequest : PacketContent
 		{
-			public bool[] options = new bool[0];
+			public bool[] options = [];
 		}
 		public class SelectZoneResponse : PacketContent
 		{
@@ -388,7 +331,7 @@ public class NetworkingStructs
 		internal class ViewCardsResponse : PacketContent
 		{
 			public string? message = null;
-			public CardStruct[] cards = new CardStruct[0];
+			public CardStruct[] cards = [];
 		}
 	}
 
@@ -400,10 +343,10 @@ public class NetworkingStructs
 			public CardStruct[] cards;
 			public GameConstants.PlayerClass player_class;
 			public CardStruct? ability, quest;
-			public override string? ToString()
+			public override readonly string? ToString()
 			{
 				if(name == null) return null;
-				StringBuilder builder = new StringBuilder();
+				StringBuilder builder = new();
 				builder.Append(player_class);
 				if(ability != null)
 				{
@@ -417,7 +360,7 @@ public class NetworkingStructs
 				}
 				foreach(var card in cards)
 				{
-					builder.Append("\n");
+					builder.Append('\n');
 					builder.Append(card.name);
 				}
 				return builder.ToString();
@@ -430,7 +373,7 @@ public class NetworkingStructs
 
 		public class NamesResponse : PacketContent
 		{
-			public string[] names = new string[0];
+			public string[] names = [];
 		}
 
 		public class ListRequest : PacketContent
@@ -450,7 +393,7 @@ public class NetworkingStructs
 		}
 		public class SearchResponse : PacketContent
 		{
-			public CardStruct[] cards = new CardStruct[0];
+			public CardStruct[] cards = [];
 		}
 
 		public class ListUpdateRequest : PacketContent
@@ -471,7 +414,7 @@ public class NetworkingStructs
 		public class AdditionalCardsResponse : PacketContent
 		{
 			public DateTime time;
-			public CardStruct[] cards = new CardStruct[0];
+			public CardStruct[] cards = [];
 		}
 
 		public class CreateRequest : PacketContent
@@ -508,13 +451,13 @@ public class NetworkingStructs
 		{ }
 		public class RoomsResponse : PacketContent
 		{
-			public string[] rooms = new string[0];
+			public string[] rooms = [];
 		}
 
 		public class StartRequest : PacketContent
 		{
 			public string? name;
-			public string[] decklist = new string[0];
+			public string[] decklist = [];
 			public bool noshuffle;
 		}
 		public class StartResponse : PacketContent

@@ -44,8 +44,7 @@ class Functions
 
 	public static List<byte> GeneratePayload<T>(T response)
 	{
-		List<byte> ret = new List<byte>();
-		ret.Add(NetworkingConstants.PacketDict[typeof(T)]);
+		List<byte> ret = [NetworkingConstants.PacketDict[typeof(T)]];
 		byte[] json = JsonSerializer.SerializeToUtf8Bytes(response, NetworkingConstants.jsonIncludeOption);
 		ret.AddRange(json);
 		ret.InsertRange(0, BitConverter.GetBytes(ret.Count));
@@ -106,7 +105,7 @@ class Functions
 		Span<byte> buffer = new byte[size];
 		stream.ReadExactly(buffer);
 		Log($"{watch.ElapsedMilliseconds}ms for raw receive of {size} bytes");
-		return (buffer[0], buffer.Length > 0 ? buffer.Slice(1).ToArray() : null);
+		return (buffer[0], buffer.Length > 0 ? buffer[1..].ToArray() : null);
 	}
 
 	public static T DeserializePayload<T>((byte type, byte[]? payload) input) where T : PacketContent
@@ -136,35 +135,25 @@ class Functions
 	}
 	public static T DeserializeJson<T>(byte[] data) where T : PacketContent
 	{
-		T? ret = JsonSerializer.Deserialize<T>(data, NetworkingConstants.jsonIncludeOption);
-		if(ret == null)
-		{
-			throw new Exception($"{data} deserialized to null");
-		}
-		return ret;
+		return JsonSerializer.Deserialize<T>(data, NetworkingConstants.jsonIncludeOption) ?? throw new Exception($"{data} deserialized to null");
 	}
 	public static (byte, byte[]?) Request(PacketContent request, string address, int port)
 	{
-		using(TcpClient client = new TcpClient())
-		{
-			client.Connect(address, port);
-			return Request(request, client);
-		}
+		using TcpClient client = new();
+		client.Connect(address, port);
+		return Request(request, client);
 	}
 
 	public static (byte, byte[]?) Request(PacketContent request, TcpClient client)
 	{
-		using(NetworkStream stream = client.GetStream())
-		{
-			List<byte> payload = new List<byte>();
-			payload.Add(NetworkingConstants.PacketDict[request.GetType()]);
-			byte[] json = JsonSerializer.SerializeToUtf8Bytes(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
-			payload.AddRange(json);
-			payload.InsertRange(0, BitConverter.GetBytes(payload.Count));
-			stream.Write(payload.ToArray(), 0, payload.Count);
-			// Reuse the payload list for the response
-			return ReceiveRawPacket(stream);
-		}
+		using NetworkStream stream = client.GetStream();
+		List<byte> payload = [NetworkingConstants.PacketDict[request.GetType()]];
+		byte[] json = JsonSerializer.SerializeToUtf8Bytes(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
+		payload.AddRange(json);
+		payload.InsertRange(0, BitConverter.GetBytes(payload.Count));
+		stream.Write([.. payload], 0, payload.Count);
+		// Reuse the payload list for the response
+		return ReceiveRawPacket(stream);
 	}
 }
 

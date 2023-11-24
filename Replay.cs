@@ -6,13 +6,14 @@ using System.Text.Json.Serialization;
 
 namespace CardGameUtils;
 
-class Replay
+class Replay(string[] cmdlineArgs, int seed)
 {
-	public class GameAction
+	[method: JsonConstructor]
+	public class GameAction(int player, byte packetType, string packetContent, bool clientToServer)
 	{
-		public int player;
-		public byte packetType;
-		public string packetContent;
+		public int player = player;
+		public byte packetType = packetType;
+		public string packetContent = packetContent;
 		public byte[] packetContentBytes()
 		{
 			return Convert.FromBase64String(packetContent);
@@ -22,28 +23,15 @@ class Replay
 			List<byte> packet = packetContentBytes().ToList();
 			packet.Insert(0, packetType);
 			packet.InsertRange(0, BitConverter.GetBytes(packet.Count));
-			return packet.ToArray();
+			return [.. packet];
 		}
-		public bool clientToServer;
+		public bool clientToServer = clientToServer;
 
 		public GameAction(int player, byte packetType, byte[]? packet, bool clientToServer) : this(player, packetType, Convert.ToBase64String(packet!), clientToServer)
 		{
 		}
-		[JsonConstructorAttribute]
-		public GameAction(int player, byte packetType, string packetContent, bool clientToServer)
-		{
-			this.player = player;
-			this.packetType = packetType;
-			this.packetContent = packetContent;
-			this.clientToServer = clientToServer;
-		}
 	}
-	public string[] cmdlineArgs;
-	public List<GameAction> actions = new List<GameAction>();
-	public int seed;
-	public Replay(string[] cmdlineArgs, int seed)
-	{
-		this.seed = seed;
-		this.cmdlineArgs = cmdlineArgs;
-	}
+	public string[] cmdlineArgs = cmdlineArgs;
+	public List<GameAction> actions = [];
+	public int seed = seed;
 }

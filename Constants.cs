@@ -52,8 +52,8 @@ public class NetworkingConstants
 		ServerStartResponse,
 		PACKET_COUNT,
 	}
-	public static readonly JsonSerializerOptions jsonIncludeOption = new JsonSerializerOptions { IncludeFields = true };
-	public static readonly Dictionary<Type, byte> PacketDict = new Dictionary<Type, byte>
+	public static readonly JsonSerializerOptions jsonIncludeOption = new() { IncludeFields = true };
+	public static readonly Dictionary<Type, byte> PacketDict = new()
 	{
 		{typeof(Structs.NetworkingStructs.DeckPackets.NamesRequest), (byte)PacketType.DeckNamesRequest},
 		{typeof(Structs.NetworkingStructs.DeckPackets.NamesResponse), (byte)PacketType.DeckNamesResponse},
@@ -106,7 +106,7 @@ public class GameConstants
 	public const int START_HAND_SIZE = 5;
 	public const int START_LIFE = 40;
 	public const int START_MOMENTUM = 3;
-	public static readonly int[] MOMENTUM_INCREMENT_TURNS = { 2, 4, 6, 8 };
+	public static readonly int[] MOMENTUM_INCREMENT_TURNS = [2, 4, 6, 8];
 	public const int FIELD_SIZE = 6;
 
 	public enum State
@@ -164,7 +164,7 @@ public class GameConstants
 
 public class ClientConstants
 {
-	public static Dictionary<string, string> KeywordDescriptions = new Dictionary<string, string>
+	public static Dictionary<string, string> KeywordDescriptions = new()
 	{
 		{ "Brittle", "The creature dies at the end of the turn" },
 		{ "Colossal", "The creature needs X additional momentum to move" },
