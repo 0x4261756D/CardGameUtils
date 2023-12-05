@@ -110,7 +110,7 @@ public class GameConstants
 	public const int DECK_SIZE = 40;
 	public const int START_HAND_SIZE = 5;
 	public const int START_LIFE = 40;
-	public const int START_MOMENTUM = 3;
+	public const int START_MOMENTUM = 2;
 	public static readonly int[] MOMENTUM_INCREMENT_TURNS = [2, 4, 6, 8];
 	public const int FIELD_SIZE = 6;
 
