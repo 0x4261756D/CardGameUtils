@@ -14,13 +14,13 @@ class Replay(string[] cmdlineArgs, int seed)
 		public int player = player;
 		public byte packetType = packetType;
 		public string packetContent = packetContent;
-		public byte[] packetContentBytes()
+		public byte[] PacketContentBytes()
 		{
 			return Convert.FromBase64String(packetContent);
 		}
-		public byte[] fullPacketBytes()
+		public byte[] FullPacketBytes()
 		{
-			List<byte> packet = packetContentBytes().ToList();
+			List<byte> packet = [.. PacketContentBytes()];
 			packet.Insert(0, packetType);
 			packet.InsertRange(0, BitConverter.GetBytes(packet.Count));
 			return [.. packet];
