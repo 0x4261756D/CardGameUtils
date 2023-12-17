@@ -301,9 +301,14 @@ public class NetworkingStructs
 				// TODO: Don't always send these
 				public string name;
 				public CardStruct ability, quest;
-				public CardStruct? shownCard;
-				public string? shownReason;
+				public ShownInfo shownInfo;
+				public struct ShownInfo
+				{
+					public CardStruct? card;
+					public string? description;
+				}
 			}
+
 
 			public Field ownField, oppField;
 			public int turn;
