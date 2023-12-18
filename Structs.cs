@@ -302,7 +302,7 @@ public class NetworkingStructs
 				public string name;
 				public CardStruct ability, quest;
 				public ShownInfo shownInfo;
-				public struct ShownInfo
+				public class ShownInfo
 				{
 					public CardStruct? card;
 					public string? description;
