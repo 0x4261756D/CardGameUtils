@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using static CardGameUtils.Structs.NetworkingStructs;
@@ -76,7 +73,14 @@ class Functions
 		while(type != NetworkingConstants.PacketDict[typeof(T)])
 		{
 			(type, payload) = ReceiveRawPacket(stream);
-			Log($"Ignoring {NetworkingConstants.PacketDict.First(x => x.Value == type).Key}", severity: LogSeverity.Warning);
+			foreach(Type? key in NetworkingConstants.PacketDict.Keys)
+			{
+				if(NetworkingConstants.PacketDict[key] == type)
+				{
+					Log($"Ignoring {key}", severity: LogSeverity.Warning);
+					break;
+				}
+			}
 		}
 		return payload;
 	}
