@@ -4,12 +4,13 @@ using System.IO;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using static CardGameUtils.Structs.NetworkingStructs;
 
 namespace CardGameUtils;
 
-class Functions
+partial class Functions
 {
 	public enum LogSeverity
 	{
@@ -17,6 +18,14 @@ class Functions
 		Warning,
 		Error,
 	}
+
+	[GeneratedRegex(@"[^#\|a-zA-Z0-9]")]
+	private static partial Regex CardFileNameRegex();	
+	public static string CardNameToFilename(string name)
+	{
+		return CardFileNameRegex().Replace(name, "");
+	}
+
 	public static void Log(string message, LogSeverity severity = LogSeverity.Debug, bool includeFullPath = false, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string propertyName = "")
 	{
 		ConsoleColor current = Console.ForegroundColor;
