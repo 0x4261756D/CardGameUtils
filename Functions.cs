@@ -20,7 +20,7 @@ partial class Functions
 	}
 
 	[GeneratedRegex(@"[^#\|a-zA-Z0-9]")]
-	private static partial Regex CardFileNameRegex();	
+	private static partial Regex CardFileNameRegex();
 	public static string CardNameToFilename(string name)
 	{
 		return CardFileNameRegex().Replace(name, "");
