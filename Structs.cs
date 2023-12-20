@@ -208,13 +208,6 @@ public class ServerConfig(string additional_cards_path, int port, int room_min_p
 	public string additional_cards_path = additional_cards_path;
 }
 
-public class PlayerInfo(string name, string id, string[] decklist)
-{
-	public string name = name;
-	public string id = id;
-	public string[] decklist = decklist;
-}
-
 public class NetworkingStructs
 {
 	// NOTE: The packet class exists for reference only,
