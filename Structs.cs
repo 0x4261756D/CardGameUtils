@@ -458,9 +458,9 @@ public class NetworkingStructs
 			public string? reason = reason;
 		}
 
-		public class OpponentJoinedResponse(string name) : PacketContent
+		public class OpponentChangedResponse(string? name) : PacketContent
 		{
-			public string name = name;
+			public string? name = name;
 		}
 
 		public class LeaveRequest(string name) : PacketContent

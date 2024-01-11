@@ -44,6 +44,7 @@ public class NetworkingConstants
 		ServerCreateResponse,
 		ServerJoinRequest,
 		ServerJoinResponse,
+		ServerOpponentChangedResponse,
 		ServerLeaveRequest,
 		ServerLeaveResponse,
 		ServerRoomsRequest,
@@ -95,6 +96,7 @@ public class NetworkingConstants
 		{typeof(Structs.NetworkingStructs.ServerPackets.CreateResponse), (byte)PacketType.ServerCreateResponse},
 		{typeof(Structs.NetworkingStructs.ServerPackets.JoinRequest), (byte)PacketType.ServerJoinRequest},
 		{typeof(Structs.NetworkingStructs.ServerPackets.JoinResponse), (byte)PacketType.ServerJoinResponse},
+		{typeof(Structs.NetworkingStructs.ServerPackets.OpponentChangedResponse), (byte)PacketType.ServerOpponentChangedResponse},
 		{typeof(Structs.NetworkingStructs.ServerPackets.LeaveRequest), (byte)PacketType.ServerLeaveRequest},
 		{typeof(Structs.NetworkingStructs.ServerPackets.LeaveResponse), (byte)PacketType.ServerLeaveResponse},
 		{typeof(Structs.NetworkingStructs.ServerPackets.RoomsRequest), (byte)PacketType.ServerRoomsRequest},
@@ -170,7 +172,7 @@ public class GameConstants
 
 public class ClientConstants
 {
-	public static Dictionary<string, string> KeywordDescriptions = new()
+	public static readonly Dictionary<string, string> KeywordDescriptions = new()
 	{
 		{ "Brittle", "The creature dies at the end of the turn" },
 		{ "Colossal", "The creature needs X additional momentum to move" },
