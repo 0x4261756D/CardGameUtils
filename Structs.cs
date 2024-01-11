@@ -226,82 +226,98 @@ public class NetworkingStructs
 		{
 		}
 
-		public class GameResultResponse : PacketContent
+		public class GameResultResponse(GameConstants.GameResult result) : PacketContent
 		{
-			public GameConstants.GameResult result;
+			public GameConstants.GameResult result = result;
 		}
 
-		public class GetOptionsRequest : PacketContent
+		public class GetOptionsRequest(GameConstants.Location location, int uid) : PacketContent
 		{
-			public GameConstants.Location location;
-			public int uid;
+			public GameConstants.Location location = location;
+			public int uid = uid;
 		}
-		public class GetOptionsResponse : PacketContent
+		public class GetOptionsResponse(GameConstants.Location location, int uid, string[] options) : PacketContent
 		{
-			public GameConstants.Location location;
-			public int uid;
+			public GameConstants.Location location = location;
+			public int uid = uid;
 			// TODO: this might not be the way to do this
-			public string[] options = [];
+			public string[] options = options;
 		}
 
-		public class SelectOptionRequest : PacketContent
+		public class SelectOptionRequest(GameConstants.Location location, int uid, string desc) : PacketContent
 		{
-			public string desc = "UNINITIALIZED";
-			public GameConstants.Location location;
-			public int uid;
+			public GameConstants.Location location = location;
+			public int uid = uid;
+			public string desc = desc;
 		}
 
-		public class YesNoRequest : PacketContent
+		public class YesNoRequest(string question) : PacketContent
 		{
-			public string question = "UNINITIALIZED";
+			public string question = question;
 		}
-		public class YesNoResponse : PacketContent
+		public class YesNoResponse(bool result) : PacketContent
 		{
-			public bool result;
-		}
-
-		public class SelectCardsRequest : PacketContent
-		{
-			public CardStruct[] cards = [];
-			public int amount;
-			public string? desc;
-		}
-		public class SelectCardsResponse : PacketContent
-		{
-			public int[] uids = [];
+			public bool result = result;
 		}
 
-		public class CustomSelectCardsRequest : PacketContent
+		public class SelectCardsRequest(CardStruct[] cards, string desc, int amount) : PacketContent
 		{
-			public CardStruct[] cards = [];
-			public string? desc;
-			public bool initialState;
+			public CardStruct[] cards = cards;
+			public string desc = desc;
+			public int amount = amount;
 		}
-		public class CustomSelectCardsResponse : PacketContent
+		public class SelectCardsResponse(int[] uids) : PacketContent
 		{
-			public int[] uids = [];
-		}
-
-		public class CustomSelectCardsIntermediateRequest : PacketContent
-		{
-			public int[] uids = [];
-		}
-		public class CustomSelectCardsIntermediateResponse : PacketContent
-		{
-			public bool isValid;
+			public int[] uids = uids;
 		}
 
-		public class FieldUpdateRequest : PacketContent
+		public class CustomSelectCardsRequest(CardStruct[] cards, string desc, bool initialState) : PacketContent
 		{
-			public struct Field
+			public CardStruct[] cards = cards;
+			public string desc = desc;
+			public bool initialState = initialState;
+		}
+		public class CustomSelectCardsResponse(int[] uids) : PacketContent
+		{
+			public int[] uids = uids;
+		}
+
+		public class CustomSelectCardsIntermediateRequest(int[] uids) : PacketContent
+		{
+			public int[] uids = uids;
+		}
+		public class CustomSelectCardsIntermediateResponse(bool isValid) : PacketContent
+		{
+			public bool isValid = isValid;
+		}
+
+		public class FieldUpdateRequest(
+			FieldUpdateRequest.Field ownField,
+			FieldUpdateRequest.Field oppField,
+			int turn,
+			bool hasInitiative,
+			bool battleDirectionLeftToRight,
+			int? markedZone) : PacketContent
+		{
+			public class Field(
+				int life,
+				int deckSize,
+				int graveSize,
+				int momentum,
+				CardStruct[] hand,
+				CardStruct?[] field,
+				string name,
+				CardStruct ability,
+				CardStruct quest,
+				Field.ShownInfo shownInfo)
 			{
-				public int life, deckSize, graveSize, momentum;
-				public CardStruct[] hand;
-				public CardStruct?[] field;
+				public int life = life, deckSize = deckSize, graveSize = graveSize, momentum = momentum;
+				public CardStruct[] hand = hand;
+				public CardStruct?[] field = field;
 				// TODO: Don't always send these
-				public string name;
-				public CardStruct ability, quest;
-				public ShownInfo shownInfo;
+				public string name = name;
+				public CardStruct ability = ability, quest = quest;
+				public ShownInfo shownInfo = shownInfo;
 				public class ShownInfo
 				{
 					public CardStruct? card;
@@ -310,33 +326,33 @@ public class NetworkingStructs
 			}
 
 
-			public Field ownField, oppField;
-			public int turn;
-			public bool hasInitiative, battleDirectionLeftToRight;
-			public int? markedZone;
+			public Field ownField = ownField, oppField = oppField;
+			public int turn = turn;
+			public bool hasInitiative = hasInitiative, battleDirectionLeftToRight = battleDirectionLeftToRight;
+			public int? markedZone = markedZone;
 		}
 
-		public class SelectZoneRequest : PacketContent
+		public class SelectZoneRequest(bool[] options) : PacketContent
 		{
-			public bool[] options = [];
+			public bool[] options = options;
 		}
-		public class SelectZoneResponse : PacketContent
+		public class SelectZoneResponse(int zone) : PacketContent
 		{
-			public int zone;
+			public int zone = zone;
 		}
 
 		internal class PassRequest : PacketContent
 		{
 		}
 
-		internal class ViewGraveRequest : PacketContent
+		internal class ViewGraveRequest(bool opponent) : PacketContent
 		{
-			public bool opponent = false;
+			public bool opponent = opponent;
 		}
-		internal class ViewCardsResponse : PacketContent
+		internal class ViewCardsResponse(string message, CardStruct[] cards) : PacketContent
 		{
-			public string? message = null;
-			public CardStruct[] cards = [];
+			public string message = message;
+			public CardStruct[] cards = cards;
 		}
 	}
 
@@ -376,38 +392,38 @@ public class NetworkingStructs
 		{
 		}
 
-		public class NamesResponse : PacketContent
+		public class NamesResponse(string[] names) : PacketContent
 		{
-			public string[] names = [];
+			public string[] names = names;
 		}
 
-		public class ListRequest : PacketContent
+		public class ListRequest(string name) : PacketContent
 		{
-			public string name = "UNINITIALIZED";
+			public string name = name;
 		}
-		public class ListResponse : PacketContent
+		public class ListResponse(Deck deck) : PacketContent
 		{
-			public Deck deck;
-		}
-
-		public class SearchRequest : PacketContent
-		{
-			public string? filter;
-			public GameConstants.PlayerClass playerClass;
-			public bool includeGenericCards;
-		}
-		public class SearchResponse : PacketContent
-		{
-			public CardStruct[] cards = [];
+			public Deck deck = deck;
 		}
 
-		public class ListUpdateRequest : PacketContent
+		public class SearchRequest(string filter, GameConstants.PlayerClass playerClass, bool includeGenericCards) : PacketContent
 		{
-			public Deck deck;
+			public string filter = filter;
+			public GameConstants.PlayerClass playerClass = playerClass;
+			public bool includeGenericCards = includeGenericCards;
 		}
-		public class ListUpdateResponse : PacketContent
+		public class SearchResponse(CardStruct[] cards) : PacketContent
 		{
-			public bool should_update;
+			public CardStruct[] cards = cards;
+		}
+
+		public class ListUpdateRequest(Deck deck) : PacketContent
+		{
+			public Deck deck = deck;
+		}
+		public class ListUpdateResponse(bool shouldUpdate) : PacketContent
+		{
+			public bool shouldUpdate = shouldUpdate;
 		}
 	}
 
@@ -416,54 +432,61 @@ public class NetworkingStructs
 		public class AdditionalCardsRequest : PacketContent
 		{
 		}
-		public class AdditionalCardsResponse : PacketContent
+		public class AdditionalCardsResponse(DateTime time, CardStruct[] cards) : PacketContent
 		{
-			public DateTime time;
-			public CardStruct[] cards = [];
+			public DateTime time = time;
+			public CardStruct[] cards = cards;
 		}
 
-		public class CreateRequest : PacketContent
+		public class CreateRequest(string name) : PacketContent
 		{
-			public string? name;
+			public string name = name;
 		}
-		public class CreateResponse : PacketContent
+		public class CreateResponse(bool success, string? reason = null) : PacketContent
 		{
-			public bool success;
-			public string? reason;
-		}
-
-		public class JoinRequest : PacketContent
-		{
-			public string? name, targetName;
-		}
-		public class JoinResponse : PacketContent
-		{
-			public bool success;
-			public string? reason;
+			public bool success = success;
+			public string? reason = reason;
 		}
 
-		public class LeaveRequest : PacketContent
+		public class JoinRequest(string name, string targetName) : PacketContent
 		{
-			public string? name;
+			public string name = name, targetName = targetName;
 		}
-		public class LeaveResponse : PacketContent
+		public class JoinResponse(bool success, string? reason = null) : PacketContent
 		{
-			public bool success;
-			public string? reason;
+			public bool success = success;
+			public string? reason = reason;
+		}
+
+		public class OpponentJoinedResponse(string name) : PacketContent
+		{
+			public string name = name;
+		}
+
+		public class LeaveRequest(string name) : PacketContent
+		{
+			public string name = name;
+		}
+		public class LeaveResponse(bool success, string? reason = null) : PacketContent
+		{
+			public bool success = success;
+			public string? reason = reason;
 		}
 
 		public class RoomsRequest : PacketContent
-		{ }
-		public class RoomsResponse : PacketContent
 		{
-			public string[] rooms = [];
+
+		}
+		public class RoomsResponse(string[] rooms) : PacketContent
+		{
+			public string[] rooms = rooms;
 		}
 
-		public class StartRequest : PacketContent
+		public class StartRequest(string name, string[] decklist, bool noshuffle) : PacketContent
 		{
-			public string? name;
-			public string[] decklist = [];
-			public bool noshuffle;
+			public string name = name;
+			public string[] decklist = decklist;
+			public bool noshuffle = noshuffle;
 		}
 		public class StartResponse : PacketContent
 		{
