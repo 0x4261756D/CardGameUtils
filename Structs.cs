@@ -458,10 +458,7 @@ public class NetworkingStructs
 			public string? name = name;
 		}
 
-		public class LeaveRequest(string name) : PacketContent
-		{
-			public string name = name;
-		}
+		public class LeaveRequest() : PacketContent { }
 
 		public class RoomsRequest : PacketContent
 		{
@@ -472,9 +469,8 @@ public class NetworkingStructs
 			public string[] rooms = rooms;
 		}
 
-		public class StartRequest(string name, string[] decklist, bool noshuffle) : PacketContent
+		public class StartRequest(string[] decklist, bool noshuffle) : PacketContent
 		{
-			public string name = name;
 			public string[] decklist = decklist;
 			public bool noshuffle = noshuffle;
 		}
