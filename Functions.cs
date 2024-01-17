@@ -59,7 +59,7 @@ partial class Functions
 		];
 	}
 
-	public static byte[]? TryReceivePacket<T>(NetworkStream stream, long timeoutMs) where T : PacketContent
+	public static T? TryReceivePacket<T>(NetworkStream stream, long timeoutMs) where T : PacketContent
 	{
 		Stopwatch watch = Stopwatch.StartNew();
 		if(!stream.CanRead)
@@ -76,7 +76,7 @@ partial class Functions
 		}
 		return ReceivePacket<T>(stream);
 	}
-	public static byte[]? ReceivePacket<T>(NetworkStream stream) where T : PacketContent
+	public static T ReceivePacket<T>(NetworkStream stream) where T : PacketContent
 	{
 		(byte type, byte[]? payload) = ReceiveRawPacket(stream);
 		while(type != NetworkingConstants.PacketDict[typeof(T)])
@@ -91,7 +91,11 @@ partial class Functions
 				}
 			}
 		}
-		return payload;
+		if(payload == null)
+		{
+			return (T)new PacketContent();
+		}
+		return DeserializeJson<T>(payload);
 	}
 
 	public static (byte, byte[]?)? TryReceiveRawPacket(NetworkStream stream, long timeoutMs)
