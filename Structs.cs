@@ -69,49 +69,47 @@ public class CardStruct
 		StringBuilder builder = new();
 		if(!inDeckEdit)
 		{
-			builder.Append($"UID: {uid}{separator}");
+			_ = builder.Append($"UID: {uid}{separator}");
 		}
-		builder.Append($"name: {name}{separator}");
+		_ = builder.Append($"name: {name}{separator}");
 		if(card_type == GameConstants.CardType.Quest)
 		{
-			builder.Append($"{separator}quest progress: {position}/{cost}");
+			_ = builder.Append($"{separator}quest progress: {position}/{cost}");
 		}
 		else if(location == GameConstants.Location.Ability)
 		{
-			builder.Append($"{separator}cost: 1");
+			_ = builder.Append($"{separator}cost: 1");
 		}
 		else
 		{
-			builder.Append($"{separator}cost: {cost}");
+			_ = builder.Append($"{separator}cost: {cost}");
 			if(!inDeckEdit)
 			{
-				builder.Append($"/{base_cost}");
+				_ = builder.Append($"/{base_cost}");
 			}
 		}
 		if(!inDeckEdit)
 		{
-			builder.Append($"{separator}controller: {controller}/{base_controller}");
+			_ = builder.Append($"{separator}controller: {controller}/{base_controller}");
 		}
-		builder.Append($"{separator}card_type: {card_type}");
-		builder.Append($"{separator}class: {card_class}");
+		_ = builder.Append($"{separator}card_type: {card_type}").Append($"{separator}class: {card_class}");
 		if(!inDeckEdit)
 		{
-			builder.Append($"{separator}location: {location}");
+			_ = builder.Append($"{separator}location: {location}");
 		}
 		if(card_type == GameConstants.CardType.Creature)
 		{
-			builder.AppendJoin(separator, $"{separator}power: {power}{(inDeckEdit ? "" : "/" + base_power)}", $"life: {life}{(inDeckEdit ? "" : "/" + base_life)}");
+			_ = builder.AppendJoin(separator, $"{separator}power: {power}{(inDeckEdit ? "" : "/" + base_power)}", $"life: {life}{(inDeckEdit ? "" : "/" + base_life)}");
 			if(location == GameConstants.Location.Field)
 			{
-				builder.Append($"{separator}position: {position}");
+				_ = builder.Append($"{separator}position: {position}");
 			}
 		}
 		else if(card_type == GameConstants.CardType.Spell && inDeckEdit)
 		{
-			builder.Append($"{separator}can_be_class_ability: {can_be_class_ability}");
+			_ = builder.Append($"{separator}can_be_class_ability: {can_be_class_ability}");
 		}
-		builder.Append($"{separator}----------{separator}{text}");
-		return builder.ToString();
+		return builder.Append($"{separator}----------{separator}{text}").ToString();
 	}
 }
 
@@ -368,21 +366,18 @@ public class NetworkingStructs
 			{
 				if(name == null) return null;
 				StringBuilder builder = new();
-				builder.Append(player_class);
+				_ = builder.Append(player_class);
 				if(ability != null)
 				{
-					builder.Append("\n#");
-					builder.Append(ability.name);
+					_ = builder.Append("\n#").Append(ability.name);
 				}
 				if(quest != null)
 				{
-					builder.Append("\n|");
-					builder.Append(quest.name);
+					_ = builder.Append("\n|").Append(quest.name);
 				}
 				foreach(var card in cards)
 				{
-					builder.Append('\n');
-					builder.Append(card.name);
+					_ = builder.Append('\n').Append(card.name);
 				}
 				return builder.ToString();
 			}
