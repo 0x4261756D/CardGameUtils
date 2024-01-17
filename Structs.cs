@@ -462,11 +462,6 @@ public class NetworkingStructs
 		{
 			public string name = name;
 		}
-		public class LeaveResponse(bool success, string? reason = null) : PacketContent
-		{
-			public bool success = success;
-			public string? reason = reason;
-		}
 
 		public class RoomsRequest : PacketContent
 		{
