@@ -50,11 +50,12 @@ partial class Functions
 
 	public static byte[] GeneratePayload<T>(T response)
 	{
-		byte[] json = JsonSerializer.SerializeToUtf8Bytes(response, NetworkingConstants.jsonIncludeOption);
+		Type type = typeof(T);
+		byte[] json = JsonSerializer.SerializeToUtf8Bytes(response, type, GenericConstants.packetSerialization);
 		return
 		[
 			.. BitConverter.GetBytes(json.Length + 1),
-			NetworkingConstants.PacketDict[typeof(T)],
+			NetworkingConstants.PacketDict[type],
 			.. json,
 		];
 	}
@@ -154,19 +155,21 @@ partial class Functions
 	}
 	public static T DeserializeJson<T>(byte[] data) where T : PacketContent
 	{
-		return JsonSerializer.Deserialize<T>(data, NetworkingConstants.jsonIncludeOption) ?? throw new Exception($"{data} deserialized to null");
+		return JsonSerializer.Deserialize<T>(data, GenericConstants.packetSerialization) ?? throw new Exception($"{data} deserialized to null");
+	}
+	public static void Send(PacketContent request, string address, int port)
+	{
+		using TcpClient client = new(address, port);
+		using NetworkStream stream = client.GetStream();
+		stream.Write(GeneratePayload(request));
 	}
 	public static (byte, byte[]?) Request(PacketContent request, string address, int port)
 	{
 		using TcpClient client = new();
 		client.Connect(address, port);
-		return Request(request, client);
-	}
-
-	public static (byte, byte[]?) Request(PacketContent request, TcpClient client)
-	{
 		using NetworkStream stream = client.GetStream();
-		byte[] json = JsonSerializer.SerializeToUtf8Bytes(request, request.GetType(), NetworkingConstants.jsonIncludeOption);
+		Type type = request.GetType();
+		byte[] json = JsonSerializer.SerializeToUtf8Bytes(request, type, GenericConstants.packetSerialization);
 		byte[] payload =
 		[
 			.. BitConverter.GetBytes(json.Length + 1),

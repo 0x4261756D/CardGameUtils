@@ -4,6 +4,30 @@ using System.Text.Json;
 
 namespace CardGameUtils;
 
+public class GenericConstants
+{
+	public static readonly JsonSerializerOptions platformClientConfigSerialization = new()
+	{
+		TypeInfoResolver = PlatformClientConfigSerializationContext.Default,
+		IncludeFields = true,
+	};
+	public static readonly JsonSerializerOptions platformCoreConfigSerialization = new()
+	{
+		TypeInfoResolver = PlatformCoreConfigSerializationContext.Default,
+		IncludeFields = true,
+	};
+	public static readonly JsonSerializerOptions packetSerialization = new()
+	{
+		TypeInfoResolver = PacketSerializationContext.Default,
+		IncludeFields = true,
+	};
+	public static readonly JsonSerializerOptions replaySerialization = new()
+	{
+		TypeInfoResolver = ReplaySerializationContext.Default,
+		IncludeFields = true,
+	};
+}
+
 public class NetworkingConstants
 {
 	public enum PacketType : byte
@@ -52,12 +76,6 @@ public class NetworkingConstants
 		ServerStartResponse,
 		PACKET_COUNT,
 	}
-	public static readonly JsonSerializerOptions jsonIncludeOption = new() { IncludeFields = true };
-	public static readonly JsonSerializerOptions jsonPrettyOption = new()
-	{
-		WriteIndented = true,
-		IncludeFields = true,
-	};
 	public static readonly Dictionary<Type, byte> PacketDict = new()
 	{
 		{typeof(Structs.NetworkingStructs.DeckPackets.NamesRequest), (byte)PacketType.DeckNamesRequest},
