@@ -15,6 +15,10 @@ internal partial class PlatformCoreConfigSerializationContext : JsonSerializerCo
 internal partial class PlatformClientConfigSerializationContext : JsonSerializerContext { }
 
 [JsonSourceGenerationOptions(IncludeFields = true)]
+[JsonSerializable(typeof(PlatformServerConfig))]
+internal partial class PlatformServerConfigSerializationContext : JsonSerializerContext { }
+
+[JsonSourceGenerationOptions(IncludeFields = true)]
 [JsonSerializable(typeof(NetworkingStructs.DeckPackets.ListRequest))]
 [JsonSerializable(typeof(NetworkingStructs.DeckPackets.ListResponse))]
 [JsonSerializable(typeof(NetworkingStructs.DeckPackets.ListUpdateRequest))]
