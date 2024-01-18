@@ -4,14 +4,14 @@ using CardGameUtils.Structs;
 
 namespace CardGameUtils;
 
+[JsonSourceGenerationOptions(IncludeFields = true)]
 [JsonSerializable(typeof(PlatformCoreConfig))]
 [JsonSerializable(typeof(CoreConfig))]
-[JsonSourceGenerationOptions(IncludeFields = true)]
 internal partial class PlatformCoreConfigSerializationContext : JsonSerializerContext { }
 
 
-[JsonSerializable(typeof(PlatformClientConfig))]
 [JsonSourceGenerationOptions(IncludeFields = true)]
+[JsonSerializable(typeof(PlatformClientConfig))]
 internal partial class PlatformClientConfigSerializationContext : JsonSerializerContext { }
 
 [JsonSourceGenerationOptions(IncludeFields = true)]
@@ -58,5 +58,6 @@ internal partial class PlatformClientConfigSerializationContext : JsonSerializer
 [JsonSerializable(typeof(NetworkingStructs.ServerPackets.StartResponse))]
 internal partial class PacketSerializationContext : JsonSerializerContext { }
 
+[JsonSourceGenerationOptions(IncludeFields = true)]
 [JsonSerializable(typeof(Replay))]
-internal partial class ReplaySerializationContext : JsonSerializerContext {}
+internal partial class ReplaySerializationContext : JsonSerializerContext { }
