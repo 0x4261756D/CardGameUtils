@@ -55,7 +55,10 @@ public class CardStruct
 
 	public override bool Equals(object? other)
 	{
-		if(other == null) return false;
+		if(other == null)
+		{
+			return false;
+		}
 		return uid == ((CardStruct)other).uid;
 	}
 
@@ -364,7 +367,10 @@ public class NetworkingStructs
 			public CardStruct? ability, quest;
 			public override readonly string? ToString()
 			{
-				if(name == null) return null;
+				if(name == null)
+				{
+					return null;
+				}
 				StringBuilder builder = new();
 				_ = builder.Append(player_class);
 				if(ability != null)

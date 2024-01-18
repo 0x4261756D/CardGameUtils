@@ -16,6 +16,11 @@ public class GenericConstants
 		TypeInfoResolver = PlatformCoreConfigSerializationContext.Default,
 		IncludeFields = true,
 	};
+	public static readonly JsonSerializerOptions platformServerConfigSerialization = new()
+	{
+		TypeInfoResolver = PlatformServerConfigSerializationContext.Default,
+		IncludeFields = true,
+	};
 	public static readonly JsonSerializerOptions packetSerialization = new()
 	{
 		TypeInfoResolver = PacketSerializationContext.Default,

@@ -1,4 +1,3 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using CardGameUtils.Structs;
 
@@ -13,6 +12,10 @@ internal partial class PlatformCoreConfigSerializationContext : JsonSerializerCo
 [JsonSourceGenerationOptions(IncludeFields = true)]
 [JsonSerializable(typeof(PlatformClientConfig))]
 internal partial class PlatformClientConfigSerializationContext : JsonSerializerContext { }
+
+[JsonSourceGenerationOptions(IncludeFields = true)]
+[JsonSerializable(typeof(PlatformServerConfig))]
+internal partial class PlatformServerConfigSerializationContext : JsonSerializerContext { }
 
 [JsonSourceGenerationOptions(IncludeFields = true)]
 [JsonSerializable(typeof(NetworkingStructs.DeckPackets.ListRequest))]
