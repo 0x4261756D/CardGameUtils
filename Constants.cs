@@ -10,6 +10,7 @@ public class GenericConstants
 	{
 		TypeInfoResolver = PlatformClientConfigSerializationContext.Default,
 		IncludeFields = true,
+		WriteIndented = true,
 	};
 	public static readonly JsonSerializerOptions platformCoreConfigSerialization = new()
 	{
