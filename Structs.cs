@@ -164,6 +164,12 @@ public class PlatformClientConfig
 	public ClientConfig? windows, linux;
 }
 
+public class CardAction(int uid, string description)
+{
+	public int uid = uid;
+	public string description = description;
+}
+
 public class ClientConfig(
 	URL deck_edit_url, int width, int height, CoreInfo core_info, bool should_save_player_name, bool should_spawn_core, string server_address, int animation_delay_in_ms, ClientConfig.ThemeVariant? theme, string? picture_path)
 {
@@ -237,19 +243,18 @@ public class NetworkingStructs
 			public GameConstants.Location location = location;
 			public int uid = uid;
 		}
-		public class GetOptionsResponse(GameConstants.Location location, int uid, string[] options) : PacketContent
+		public class GetOptionsResponse(GameConstants.Location location, int uid, CardAction[] options) : PacketContent
 		{
 			public GameConstants.Location location = location;
 			public int uid = uid;
-			// TODO: this might not be the way to do this
-			public string[] options = options;
+			public CardAction[] options = options;
 		}
 
-		public class SelectOptionRequest(GameConstants.Location location, int uid, string desc) : PacketContent
+		public class SelectOptionRequest(GameConstants.Location location, int uid, CardAction cardAction) : PacketContent
 		{
 			public GameConstants.Location location = location;
 			public int uid = uid;
-			public string desc = desc;
+			public CardAction cardAction = cardAction;
 		}
 
 		public class YesNoRequest(string question) : PacketContent
