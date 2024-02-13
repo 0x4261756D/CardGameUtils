@@ -157,7 +157,7 @@ partial class Functions
 	{
 		return JsonSerializer.Deserialize<T>(data, GenericConstants.packetSerialization) ?? throw new Exception($"{data} deserialized to null");
 	}
-	public static void Send(PacketContent request, string address, int port)
+	public static void Send<T>(T request, string address, int port) where T : PacketContent
 	{
 		using TcpClient client = new(address, port);
 		using NetworkStream stream = client.GetStream();
