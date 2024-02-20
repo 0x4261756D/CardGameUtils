@@ -5,7 +5,7 @@ stateDiagram-v2
 	{
 		mulligan: Each player may shuffle any number of cards\nfrom their hand back into their deck,\ndraw back to 5 cards and shuffle 1 card back
 	}
-	startSetX: X = 3
+	startSetX: X = 2
 	startSetTurn: turn = 1
 	startTurnPlayer: Determine the turn player randomly
 	startBattleDirection: battle direction = left-to-right from the turn player's perspective
@@ -19,11 +19,14 @@ stateDiagram-v2
 		castSpell: Cast spell
 		activateEffect: Activate effect
 		activateClass: Activate\nclass ability
+		moveCreature: Move a creature
 
 		[*] --> gainedInitiative
 		gainedInitiative --> Pass
 		gainedInitiative --> castCreature
+		gainedInitiative --> moveCreature
 		castCreature --> actionTaken
+		moveCreature --> actionTaken
 		gainedInitiative --> castSpell
 		castSpell --> actionTaken
 		gainedInitiative --> activateEffect
@@ -130,7 +133,7 @@ stateDiagram-v2
 	gameEnds: GAME ENDS
 	nextTurnPlayer: The next player becomes turn player
 	incTurnCount: turn++
-	incMomentum: If turn == 4, 7, 10 then X++
+	incMomentum: If turn == 3, 5, 7, 9 then X++
 
 	[*] --> startDraw
 	startDraw --> Mulligan
